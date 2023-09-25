@@ -43,7 +43,52 @@ class Tweet < ApplicationRecord
 #----------------------------------------------------------------------------------------------------------
     #created method to create new tagging record for each hashtag, and a  hashtag id in tagging table if a registry doesn't exist
 
-
+    def create_new_hashtags
+        hashtags = extract_hashtags_from_body
+            hashtags.each do |hashtag|
+                existing_hashtag = Hashtag.find_by(hashtag_body: hashtag.downcase)
+    
+                if existing_hashtag
+                tagging = Tagging.find_or_create_by(
+                    hashtag_id: existing_hashtag.id,
+                    tweet_id: self.id
+                )
+                else
+                new_hashtag = Hashtag.create(hashtag_body: hashtag.downcase)
+                tagging = Tagging.create(
+                    hashtag_id: new_hashtag.id,
+                    tweet_id: self.id
+                )
+                
+    
+                    self.taggings << tagging unless self.taggings.include?(tagging)
+                    end
+                end
+            end
+        end
+    
+        def create_new_hashtags
+        hashtags = extract_hashtags_from_body
+            hashtags.each do |hashtag|
+                existing_hashtag = Hashtag.find_by(hashtag_body: hashtag.downcase)
+    
+                if existing_hashtag
+                tagging = Tagging.find_or_create_by(
+                    hashtag_id: existing_hashtag.id,
+                    tweet_id: self.id
+                )
+                else
+                new_hashtag = Hashtag.create(hashtag_body: hashtag.downcase)
+                tagging = Tagging.create(
+                    hashtag_id: new_hashtag.id,
+                    tweet_id: self.id
+                )
+                
+    
+                    self.taggings << tagging unless self.taggings.include?(tagging)
+                    end
+                end
+            
 
 
     #this is the method that allows the extracting of the hashtags so the create new hashtag method can check if the hashtag neww creating or not

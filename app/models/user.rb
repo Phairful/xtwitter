@@ -62,4 +62,11 @@ class User < ApplicationRecord
         .group("tweets.user_id")
         .having("tweets.user_id": id)}
 
+#----------------------------------------------------------------------------------------------------------
+
+    #Method that allows creating a new tweet
+    def tweeting (tweet_body)
+        Tweet.new user_id:self.id, tweet_body:tweet_body
+    end 
+
 end
