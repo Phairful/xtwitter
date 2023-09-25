@@ -1,6 +1,6 @@
 class Retweet < ApplicationRecord
-  belongs_to :retweeting_user, class_name: "User"
-  belongs_to :retweed_tweet, class_name: "Tweet"
+  belongs_to :user, class_name: "User"
+  belongs_to :tweet, class_name: "Tweet"
 
 #----------------------------------------------------------------------------------------------------------
 #hello
@@ -10,9 +10,9 @@ class Retweet < ApplicationRecord
 #  validates :retweeting_user_id, 
 #    uniqueness: true
 
-    validates :retweeting_user_id, 
-        uniqueness: {scope: :retweed_tweet_id}
+    validates :user_id, 
+        uniqueness: {scope: :tweet_id}
 
   #created the association validation for the relations between tables user & tweet to retweet
-  validates_associated :retweeting_user, :retweed_tweet
+  validates_associated :user, :tweet
 end

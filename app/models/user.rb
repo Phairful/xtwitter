@@ -1,12 +1,15 @@
 class User < ApplicationRecord
+    #my leader is the person being follow, and the follower is the making the follow
+    #my followers are the persons that i lead,
+    #if i want to see my follower i should look up for the followees of mine are
     has_many :followee_user, foreign_key: :follower_user_id, class_name: 'Follow'
     has_many :follower_user, foreign_key: :followee_user_id, class_name: 'Follow'
     has_and_belongs_to_many :Tweet, join_table: "table_name", foreign_key: "Tweet_id"
-    has_many :tweets, foreign_key: "tweeting_user_id"
-    has_many :likes, foreign_key: "liking_user_id"
-    has_many :bookmarks, foreign_key: "bookmarking_user_id"
-    has_many :quotes, foreign_key: "quoting_user_id"
-    has_many :retweets, foreign_key: "retweeting_user_id"
+    has_many :tweets, foreign_key: "user_id"
+    has_many :likes, foreign_key: "user_id"
+    has_many :bookmarks, foreign_key: "user_id"
+    has_many :quotes, foreign_key: "user_id"
+    has_many :retweets, foreign_key: "user_id"
 
 #----------------------------------------------------------------------------------------------------------
 
@@ -30,33 +33,33 @@ class User < ApplicationRecord
 
     # created scopes for finding tweets, tweet & Replies and bookmarks with a user parameter
     scope :followers_count, ->(id) {
-        joins("INNER JOIN follows ON follows.follower_user_id = user.id")
+        joins("INNER JOIN follows ON follows.follower_user_id = users.id")
         .group("follows.follower_user_id")
         .having("follows.follower_user_id": id).count}
     scope :followings_count, ->(id) {
-        joins("INNER JOIN follows ON follows.followee_user_id = user.id")
+        joins("INNER JOIN follows ON follows.followee_user_id = users.id")
         .group("follows.followee_tweet_id")
         .having("follows.followee_tweet_id": id).count}
     scope :likes_by_user, ->(id) {
-        joins("INNER JOIN likes ON likes.liking_user_id = user.id")
-        .group("likes.liking_user_id")
-        .having("likes.liking_user_id": id)}
+        joins("INNER JOIN likes ON likes.user_id = users.id")
+        .group("likes.user_id")
+        .having("likes.user_id": id)}
     scope :bookmarks_by_user, ->(id) {
-        joins("INNER JOIN bookmarks ON bookmarks.bookmarking_user_id = user.id")
-        .group("bookmarks.bookmarking_user_id")
-        .having("bookmarks.bookmarking_user_id": id)}
+        joins("INNER JOIN bookmarks ON bookmarks.user_id = users.id")
+        .group("bookmarks.user_id")
+        .having("bookmarks.user_id": id)}
     scope :retweets_by_user, ->(id) {
-        joins("INNER JOIN retweets ON retweets.retweeting_user_id = user.id")
-        .group("retweets.retweeting_user_id")
-        .having("retweets.retweeting_user_id": id)}
+        joins("INNER JOIN retweets ON retweets.user_id = users.id")
+        .group("retweets.user_id")
+        .having("retweets.user_id": id)}
     scope :tweets_by_user, ->(id) {
-        joins("INNER JOIN tweets ON tweets.tweeting_user_id = users.id")
+        joins("INNER JOIN tweets ON tweets.user_id = users.id")
         .where("tweets.reply_at_tweet IS NULL")
-        .group("tweets.tweeting_user_id")
-        .having("tweets.tweeting_user_id = ?", id)}
+        .group("tweets.user_id")
+        .having("tweets.user_id = ?", id)}
     scope :tweets_replies_by_user, ->(id) {
-        joins("INNER JOIN tweets ON tweets.tweeting_user_id = user.id")
-        .group("tweets.tweeting_user_id")
-        .having("tweets.tweeting_user_id": id)}
+        joins("INNER JOIN tweets ON tweets.user_id = users.id")
+        .group("tweets.user_id")
+        .having("tweets.user_id": id)}
 
 end
