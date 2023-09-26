@@ -1,3 +1,16 @@
+# == Schema Information
+#
+#create_table "users", force: :cascade do |t|
+#    t.string "username", limit: 20
+#    t.string "display_name", limit: 20
+#    t.string "email"
+#    t.string "password"
+#    t.string "bio"
+#   t.string "location"
+#   t.datetime "created_at", null: false
+#   t.datetime "updated_at", null: false#
+#
+#----------------------------------------------------------------------------------------------------------
 class User < ApplicationRecord
     #my leader is the person being follow, and the follower is the making the follow
     #my followers are the persons that i lead,

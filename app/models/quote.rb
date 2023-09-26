@@ -1,3 +1,14 @@
+# == Schema Information
+#
+#create_table "quotes"
+#
+#  t.string "quote_body"#
+# t.integer "user_id"
+# t.integer "tweet_id"
+# t.integer "tweet_quote_id"
+# t.datetime "created_at", null: false
+# t.datetime "updated_at", null: false#
+#----------------------------------------------------------------------------------------------------------
 class Quote < ApplicationRecord
   belongs_to :tweet, class_name: "Tweet"
   belongs_to :user, class_name: "User"

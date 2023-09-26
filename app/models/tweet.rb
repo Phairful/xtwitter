@@ -1,3 +1,12 @@
+# == Schema Information
+#
+#create_table "tweets"
+#    t.string "tweet_body", limit: 280
+#    t.integer "user_id"
+#   t.integer "reply_at_tweet_id"
+#  t.datetime "created_at", null: false
+# t.datetime "updated_at", null: false
+#----------------------------------------------------------------------------------------------------------
 class Tweet < ApplicationRecord
 #----------------------------------------------------------------------------------------------------------
     belongs_to :original_tweet, class_name: "Tweet", optional: true, foreign_key: "reply_at_tweet_id"
@@ -41,10 +50,7 @@ class Tweet < ApplicationRecord
         .having("likes.tweet_id": id).count}
     #find tweets for all the parameters required
     
-    scope :user_tweets, -> (user_id) {
-        joins(:users)
-        .where(users: { user_id: user_id} AND tweets: {reply_at_tweet_id: null})
-        }
+    scope :user_tweets, -> (user_id) {joins(:users).where(users: { user_id: user_id})} #and tweets: {reply_at_tweet_id: null})}
 
     scope :user_retweets, ->(user_id) {
         joins(:retweets)
@@ -61,29 +67,6 @@ class Tweet < ApplicationRecord
 
 #----------------------------------------------------------------------------------------------------------
     #created method to create new tagging record for each hashtag, and a  hashtag id in tagging table if a registry doesn't exist
-
-        def create_new_hashtags
-        hashtags = extract_hashtags_from_body
-            hashtags.each do |hashtag|
-                existing_hashtag = Hashtag.find_by(hashtag_body: hashtag.downcase)
-    
-                if existing_hashtag
-                tagging = Tagging.find_or_create_by(
-                    hashtag_id: existing_hashtag.id,
-                    tweet_id: self.id
-                )
-                else
-                new_hashtag = Hashtag.create(hashtag_body: hashtag.downcase)
-                tagging = Tagging.create(
-                    hashtag_id: new_hashtag.id,
-                    tweet_id: self.id
-                )
-                
-    
-                    self.taggings << tagging unless self.taggings.include?(tagging)
-                    end
-                end
-            
 
 
     #this is the method that allows the extracting of the hashtags so the create new hashtag method can check if the hashtag neww creating or not

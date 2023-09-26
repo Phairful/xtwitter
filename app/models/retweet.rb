@@ -1,15 +1,20 @@
+# == Schema Information
+#
+#
+#create_table "retweets"
+#
+#  t.integer "tweet_id"#
+#  t.integer "user_id"
+#  t.datetime "created_at", null: false
+#  t.datetime "updated_at", null: false
+#----------------------------------------------------------------------------------------------------------
+
 class Retweet < ApplicationRecord
   belongs_to :user, class_name: "User"
   belongs_to :tweet, class_name: "Tweet"
 
 #----------------------------------------------------------------------------------------------------------
-#hello
    #created the validation for only having 1 retweet per tweet per user
-#  validates :retweed_tweet_id, 
-#    uniqueness: true
-#  validates :retweeting_user_id, 
-#    uniqueness: true
-
     validates :user_id, 
         uniqueness: {scope: :tweet_id}
 
