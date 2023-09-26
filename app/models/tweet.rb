@@ -39,34 +39,29 @@ class Tweet < ApplicationRecord
         joins("INNER JOIN likes ON likes.tweet_id = tweets.id")
         .group("likes.tweet_id")
         .having("likes.tweet_id": id).count}
+    #find tweets for all the parameters required
+    
+    scope :user_tweets, -> (user_id) {
+        joins(:users)
+        .where(users: { user_id: user_id} AND tweets: {reply_at_tweet_id: null})
+        }
+
+    scope :user_retweets, ->(user_id) {
+        joins(:retweets)
+        .where(retweets: { user_id: user_id })
+        }
+    scope :user_likes, ->(user_id) {
+        joins(:likes)
+        .where(likes: { user_id: user_id })
+        }
+    scope :user_bookmarks, ->(user_id) {
+        joins(:bookmarks)
+        .where(bookmarks: { user_id: user_id })
+        }
 
 #----------------------------------------------------------------------------------------------------------
     #created method to create new tagging record for each hashtag, and a  hashtag id in tagging table if a registry doesn't exist
 
-    def create_new_hashtags
-        hashtags = extract_hashtags_from_body
-            hashtags.each do |hashtag|
-                existing_hashtag = Hashtag.find_by(hashtag_body: hashtag.downcase)
-    
-                if existing_hashtag
-                tagging = Tagging.find_or_create_by(
-                    hashtag_id: existing_hashtag.id,
-                    tweet_id: self.id
-                )
-                else
-                new_hashtag = Hashtag.create(hashtag_body: hashtag.downcase)
-                tagging = Tagging.create(
-                    hashtag_id: new_hashtag.id,
-                    tweet_id: self.id
-                )
-                
-    
-                    self.taggings << tagging unless self.taggings.include?(tagging)
-                    end
-                end
-            end
-        end
-    
         def create_new_hashtags
         hashtags = extract_hashtags_from_body
             hashtags.each do |hashtag|
@@ -117,5 +112,9 @@ class Tweet < ApplicationRecord
     def quoting (user_you, quote_text)
         Quote.new user_id:user_you, tweet_id: self.id, quote_body:quote_text
     end
+
+    def replying (user_you, body)
+        Tweet.new user_id:user_you, tweet_body:body, reply_at_tweet: self.id
+    end 
 
 end

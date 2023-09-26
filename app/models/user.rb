@@ -39,24 +39,18 @@ class User < ApplicationRecord
     scope :followings_count, ->(id) {
         joins("INNER JOIN follows ON follows.followee_user_id = users.id")
         .group("follows.followee_tweet_id")
-        .having("follows.followee_tweet_id": id).count}
-    scope :likes_by_user, ->(id) {
-        joins("INNER JOIN likes ON likes.user_id = users.id")
-        .group("likes.user_id")
-        .having("likes.user_id": id)}
-    scope :bookmarks_by_user, ->(id) {
-        joins("INNER JOIN bookmarks ON bookmarks.user_id = users.id")
-        .group("bookmarks.user_id")
-        .having("bookmarks.user_id": id)}
-    scope :retweets_by_user, ->(id) {
-        joins("INNER JOIN retweets ON retweets.user_id = users.id")
-        .group("retweets.user_id")
-        .having("retweets.user_id": id)}
-    scope :tweets_by_user, ->(id) {
-        joins("INNER JOIN tweets ON tweets.user_id = users.id")
-        .where("tweets.reply_at_tweet IS NULL")
-        .group("tweets.user_id")
-        .having("tweets.user_id = ?", id)}
+        .having("follows.followee_tweet_id": id).count}   
+    
+    scope :likes_by_user, ->(id) {Tweet.user_likes(id)}
+    scope :bookmarks_by_user, ->(id) {Tweet.user_bookmarks(id)}
+    scope :retweets_by_user, ->(id) {Tweet.user_retweets(id)}
+    
+    scope :tweets_by_user, ->(id) {Tweet.user_tweets(id)}
+        #joins("INNER JOIN tweets ON tweets.user_id = users.id")
+        #.where("tweets.reply_at_tweet_id IS NULL")
+        #.group("tweets.user_id")
+        #.having("tweets.user_id = ?", id)
+
     scope :tweets_replies_by_user, ->(id) {
         joins("INNER JOIN tweets ON tweets.user_id = users.id")
         .group("tweets.user_id")
