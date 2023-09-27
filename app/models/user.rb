@@ -55,6 +55,7 @@ class User < ApplicationRecord
         .having("follows.followee_tweet_id": id).count}   
     
     scope :likes_by_user, ->(id) {Tweet.user_likes(id)}
+
     scope :bookmarks_by_user, ->(id) {Tweet.user_bookmarks(id)}
     scope :retweets_by_user, ->(id) {Tweet.user_retweets(id)}
     
@@ -73,7 +74,8 @@ class User < ApplicationRecord
 
     #Method that allows creating a new tweet
     def tweeting (tweet_body)
-        Tweet.new user_id:self.id, tweet_body:tweet_body
-    end 
+        t=Tweet.create user_id: id, tweet_body:tweet_body
+        #t.save
+    end
 
 end

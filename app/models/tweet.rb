@@ -49,9 +49,13 @@ class Tweet < ApplicationRecord
         joins("INNER JOIN likes ON likes.tweet_id = tweets.id")
         .group("likes.tweet_id")
         .having("likes.tweet_id": id).count}
+    
     #find tweets for all the parameters required
     
-    scope :user_tweets, -> (user_id) {joins(:users).where(users: { user_id: user_id})} #and tweets: {reply_at_tweet_id: null})}
+    scope :user_tweets, -> (user_id) {
+        joins(:users)
+        .where(users: { user_id: user_id})} 
+        #and tweets: {reply_at_tweet_id: null})}
 
     scope :user_retweets, ->(user_id) {
         joins(:retweets)
@@ -79,26 +83,26 @@ class Tweet < ApplicationRecord
 
     #Method that allows liking the tweet
     def liking (user_you)
-        Like.new user_id:user_you, tweet_id: self.id
+        Like.create user_id:user_you, tweet_id: self.id
     end
     
     #Method that allows bookmarking the tweet
     def bookmarking (user_you)
-        Bookmark.new user_id:user_you, tweet_id:self.id
+        Bookmark.create user_id:user_you, tweet_id:self.id
     end
     
     #Method that allows retweeting the tweet
     def retweeting (user_you)
-        Retweet.new user_id:user_you, tweet_id: self.id
+        Retweet.create user_id:user_you, tweet_id: self.id
     end
     
     #Method that allows quoting the tweet
     def quoting (user_you, quote_text)
-        Quote.new user_id:user_you, tweet_id: self.id, quote_body:quote_text
+        Quote.new user_id: user_you, tweet_id: self.id, quote_body:quote_text
     end
 
     def replying (user_you, body)
-        Tweet.new user_id:user_you, tweet_body:body, reply_at_tweet: self.id
+        Tweet.new user_id:user_you.id, tweet_body:body, reply_at_tweet: self.id
     end 
 
 end
