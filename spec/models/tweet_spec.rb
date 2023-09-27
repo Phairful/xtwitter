@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+
 RSpec.describe Tweet, type: :model do
   context "associations" do
     #it { should belong_to(:original_tweet).with_foreign_key("reply_at_tweet_id") }
@@ -15,7 +16,7 @@ RSpec.describe Tweet, type: :model do
 #----------------------------------------------------------------------------------------------------------
 
   context "validations" do
-    it { should validate_presence_of(:tweet_body) }
+    it { should validate_presence_of(:tweet_body).with_message("must be given please") }
     it { should validate_length_of(:tweet_body).is_at_least(1).is_at_most(255) }
   end
 end

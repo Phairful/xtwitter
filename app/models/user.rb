@@ -29,18 +29,18 @@ class User < ApplicationRecord
     #created the validation for user always having a username not more long that 20 characters, having an email and having a password that meets security validation of At least 1 uppercase letter, at least 1 lowercase letter, at least 1 number and at least 1 special character like !@/*-+_"
     validates :username,
         uniqueness: true,
-        length: {within: (1...20)},
+        length: {within: (1..20), message: "is too long (maximum is 20 characters)"},
         presence: { message: "must be given a username" }
     validates :email,
         uniqueness: true,
         presence: { message: "must be given an email" }
     validates :password,
-        length: {within: (12...30)},
+        length: {within: (12..30), message: "is too long (maximum is 30 characters)"},
         presence: true,
         format: { with: /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+])/ , message:
         "Password must contain, At least 1 uppercase letter, at least 1 lowercase letter, at least 1 number and at least 1 special character like !@/*-+_"}
     validates :display_name,
-        length: {within: (1...20)}
+        length: {within: (1..20), message: "is too long (maximum is 20 characters)"}
 
  #----------------------------------------------------------------------------------------------------------
 

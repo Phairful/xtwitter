@@ -1,3 +1,5 @@
+require 'faker'
+
 FactoryBot.define do
   factory :tagging do
     association :hashtag, factory: :hashtag

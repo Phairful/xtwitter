@@ -1,3 +1,5 @@
+require 'faker'
+
 FactoryBot.define do
   factory :quote do
     association :tweet, factory: :tweet

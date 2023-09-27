@@ -17,7 +17,7 @@ class Quote < ApplicationRecord
 
   #created the validation for having text body in a quote
   validates :quote_body, 
-    length: {within: (1...255)}, 
+    length: {within: (1..255)}, 
     presence: { message: "must be given please" }
   
   #created the association validation for the relations between tables user & tweet to quote
