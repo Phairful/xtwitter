@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Bookmark, type: :model do
+
+# ASSOCIATIONS SPECS
+
   context "associations" do
     it { should belong_to(:tweet) }
     it { should belong_to(:user) }
