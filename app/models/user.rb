@@ -74,8 +74,7 @@ class User < ApplicationRecord
 
     #Method that allows creating a new tweet
     def tweeting (tweet_body)
-        t=Tweet.create user_id: id, tweet_body:tweet_body
-        #t.save
+        t = Tweet.create user_id: id, tweet_body:tweet_body
     end
 
 end
