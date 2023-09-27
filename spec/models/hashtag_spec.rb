@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Hashtag, type: :model do
   #test the association table with table taggings 
   context "associations" do
-    it { should have_many(:hashtag_id) }
+    it { should have_many(:taggings).with_foreign_key("hashtag_id") }
   end
 #---------------------------------------------------------------------------------------------------------- 
 #tests the validation of the body of the hashtag, it should be beetween

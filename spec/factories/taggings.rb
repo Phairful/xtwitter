@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :tagging do
-    hashtag_id { 1 }
-    tweet_id { 1 }
+    association :hashtag, factory: :hashtag
+    association :tweet, factory: :tweet
   end
 end

@@ -1,7 +1,15 @@
+require 'faker'
+
 FactoryBot.define do
   factory :tweet do
-    tweet_body { "MyString" }
-    user_id { 1 }
-    tweet_id { 1 }
+    association :user, factory: :user
+    tweet_body { Faker::Lorem.paragraphs}
+    
+ 
+    #reply_at_tweet_id { [nil, rand(1..100)] }
+
+ 
+
   end
 end
+

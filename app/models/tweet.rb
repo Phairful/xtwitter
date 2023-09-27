@@ -6,6 +6,7 @@
 #   t.integer "reply_at_tweet_id"
 #  t.datetime "created_at", null: false
 # t.datetime "updated_at", null: false
+#
 #----------------------------------------------------------------------------------------------------------
 class Tweet < ApplicationRecord
 #----------------------------------------------------------------------------------------------------------
@@ -22,8 +23,8 @@ class Tweet < ApplicationRecord
 
     #validation fo the tweet limit of characters
     validates :tweet_body,
-        length: {within: (1...255)},
-        presence: { message: "must be given please" }
+        length: {within: (1...255)}
+        #presence: { message: "must be given please" }
 
     #validation for the association of the user to tweet
     validates_associated :user

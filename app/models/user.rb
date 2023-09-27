@@ -17,7 +17,7 @@ class User < ApplicationRecord
     #if i want to see my follower i should look up for the followees of mine are
     has_many :followee_user, foreign_key: :follower_user_id, class_name: 'Follow'
     has_many :follower_user, foreign_key: :followee_user_id, class_name: 'Follow'
-    has_and_belongs_to_many :Tweet, join_table: "table_name", foreign_key: "Tweet_id"
+    has_many :tweets#, join_table: "table_name", foreign_key: "Tweet_id"
     has_many :tweets, foreign_key: "user_id"
     has_many :likes, foreign_key: "user_id"
     has_many :bookmarks, foreign_key: "user_id"
