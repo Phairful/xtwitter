@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 root "xwitter#index"
 
 # Define routes for managing tweets
-  resources :tweets, only: [:new, :create, :edit, :update] do
+  resources :tweets, only: [:create, :patch, :destroy, :show] do
    
   member do
     post 'like',    to: 'tweets#like',    as: 'like_tweet'
@@ -16,5 +16,13 @@ root "xwitter#index"
     post 'bookmark', to: 'tweets#bookmark', as: 'bookmark_tweet'
 
    end
+  end
+
+  resources :users, only: [:create, :destroy, :show] do
+    
+    member do
+      get 'tweets',     to: 'users#tweets',    as: 'tweet_user'
+      get 'tweets_replies',     to: 'users#tweets_replies',    as: 'tweets_replies_user'
+    end
   end
 end
