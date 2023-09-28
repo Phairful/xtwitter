@@ -1,6 +1,7 @@
 require 'rails_helper'
 RSpec.describe "Tweets", type: :routing do
-  
+#---------------------------------------------------------------------------------------------------------- 
+    #SPECS FOR TWEETS THAT ARE A COMMON PATH
     describe "tweets only routes" do
         it "Route to /tweets using POST to TweetsController" do
           expect(post:'/tweets').to route_to('tweets#create')
@@ -15,7 +16,8 @@ RSpec.describe "Tweets", type: :routing do
             expect(delete:'/tweets/:id').to route_to('tweets#destroy')
         end
     end
-
+#----------------------------------------------------------------------------------------------------------
+    #SPECS FOR TWEETS THAT ARE A PERSONALIZED PATH
     describe "tweets members routes" do
         it "Route to /tweets/:id/like using POST to TweetsController" do
           expect(post:'/tweets/:id/like').to route_to('tweets#like')

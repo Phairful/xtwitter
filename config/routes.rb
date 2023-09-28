@@ -1,28 +1,34 @@
 Rails.application.routes.draw do
-# Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  #Define your application routes per the DSL in 
+  #https://guides.rubyonrails.org/routing.html
 
-# Root path route ("/")
+#Root path route ("/")
 root "tweets#index"
 
-# Define routes for managing tweets
+#----------------------------------------------------------------------------------------------------------  
+  #Definition of the routes for managing user paths
+  #common path
   resources :tweets, only: [:create, :update, :destroy, :show] do
-   
-  member do
-    post 'like',    to: 'tweets#like',    as: 'like_tweet'
-    delete 'unlike', to: 'tweets#unlike',  as: 'unlike_tweet'
-    post 'retweet',  to: 'tweets#retweet',  as: 'retweet_tweet'
-    post 'quote',    to: 'tweets#quote',    as: 'quote_tweet'
-    get 'reply',     to: 'tweets#reply',    as: 'reply_tweet'
-    post 'bookmark', to: 'tweets#bookmark', as: 'bookmark_tweet'
+  #personalized path
+    member do
+      post 'like',    to: 'tweets#like',    as: 'like'
+      delete 'unlike', to: 'tweets#unlike',  as: 'unlike'
+      post 'retweet',  to: 'tweets#retweet',  as: 'retweet'
+      post 'quote',    to: 'tweets#quote',    as: 'quote'
+      get 'reply',     to: 'tweets#reply',    as: 'reply'
+      post 'bookmark', to: 'tweets#bookmark', as: 'bookmark'
 
-   end
+    end
   end
 
+#----------------------------------------------------------------------------------------------------------  
+  #Definition of the routes for managing user paths
+  #common path
   resources :users, only: [:create, :destroy, :show] do
-    
+    #personalized path
     member do
       get 'tweets',    to: 'users#tweets',   as: 'tweet_user'
-      get 'tweets_replies',   to: 'users#tweets_replies',   as: 'tweets_replies_user'
+      get 'tweets_replies',   to: 'users#tweets_replies',   as: 'tweets_replies'
     end
   end
 end
