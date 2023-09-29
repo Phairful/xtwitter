@@ -6,7 +6,7 @@ RSpec.describe "Tweets API", type: :request do
 
   describe "Tweet Creation" do
     it "creates a new tweet and returns a 200 status with matching JSON schema" do 
-      tweet_params = { body: "This is a body" }
+      tweet_params = { body: "sdfsdf" }
       post "/tweets", params: { tweet: tweet_params }
       expect(response).to have_http_status(200)
       expect(response).to response_schema('tweet')
@@ -69,9 +69,9 @@ RSpec.describe "Tweets API", type: :request do
     end
   end
 
-  describe "Tweet Stats" do
+  describe "Tweet Show" do
     it "retrieves tweet stats and returns a 200 status with matching JSON schema" do 
-      get "/tweets/#{tweet.id}/stats"
+      get "/tweets/#{tweet.id}"
       expect(response).to have_http_status(200)
       expect(response).to response_schema('tweet')
     end

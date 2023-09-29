@@ -1,71 +1,48 @@
 require 'rails_helper'
+require 'faker'
 
-RSpec.describe "Tweets API", type: :request do
+RSpec.describe "Users API", type: :request do
   let(:user) { create(:user) }
-  let(:tweet) { create(:tweet, user: user) }
 
-  describe "Tweet Creation" do
-    it "creates a new tweet and returns a 200 status with matching JSON schema" do 
-      tweet_params = { body: "This is a body" }
-      post "/tweets", params: { tweet: tweet_params }
+  describe "User Creation" do
+    it "creates a new user and returns a 200 status with matching JSON schema" do 
+      user_params = { username: "testing_testing", email: "mail@test.com", password: 'Passworasddsd123!@', display_name: "jaimmin" }
+      post "/users", params: { user: user_params }
       expect(response).to have_http_status(200)
-      expect(response).to match_response_schema('tweet')
+      expect(response).to match_response_schema('user')
     end
   end
 
-  describe "Tweet Update" do
-    it "updates an existing tweet and returns a 200 status with matching JSON schema" do 
-      patch "/tweets/#{tweet.id}", params: { tweet: { body: "Updated body" } }
+  describe "User Tweets" do
+    it "retrieves all tweets by a user and returns a 200 status with matching JSON schema" do 
+      get "/users/#{user.id}/tweets"
       expect(response).to have_http_status(200)
-      expect(response).to match_response_schema('tweet')
+      expect(response).to match_response_schema('user')
     end
   end
 
-  describe "Tweet Like" do
-    it "creates a like for a tweet and returns a 200 status with matching JSON schema" do 
-      post "/tweets/#{tweet.id}/like"
+  describe "User Tweets & replies" do
+    it "retrieves all tweets and replies by a user and returns a 200 status with matching JSON schema" do 
+      get "/users/#{user.id}/tweets_replies"
       expect(response).to have_http_status(200)
-      expect(response).to match_response_schema('tweet')
+      expect(response).to match_response_schema('user')
     end
   end
 
-  describe "Tweet Unlike" do
-    it "deletes a like for a tweet and returns a 200 status with matching JSON schema" do 
-      delete "/tweets/#{tweet.id}/unlike"
+  describe "User Profile" do
+    it "Shows the profile of a especified user and returns a 200 status with matching JSON schema" do 
+      get "/users/#{user.id}"
       expect(response).to have_http_status(200)
-      expect(response).to match_response_schema('tweet')
+      expect(response).to match_response_schema('user')
     end
   end
 
-  describe "Tweet Retweet" do
-    it "creates a retweet for a tweet and returns a 200 status with matching JSON schema" do 
-      post "/tweets/#{tweet.id}/retweet"
+  describe "User Delete Profile" do
+    it "deletes the profile of the session user and returns a 200 status with matching JSON schema" do 
+      delete "/users/#{user.id}"
       expect(response).to have_http_status(200)
-      expect(response).to match_response_schema('tweet')
+      expect(response).to match_response_schema('user')
     end
   end
 
-  describe "Tweet Quote" do
-    it "creates a quote for a tweet and returns a 200 status with matching JSON schema" do 
-      post "/tweets/#{tweet.id}/quote"
-      expect(response).to have_http_status(200)
-      expect(response).to match_response_schema('tweet')
-    end
-  end
-
-  describe "Tweet Reply" do
-    it "creates a reply for a tweet and returns a 200 status with matching JSON schema" do 
-      post "/tweets/#{tweet.id}/reply"
-      expect(response).to have_http_status(200)
-      expect(response).to match_response_schema('tweet')
-    end
-  end
-
-  describe "Tweet Bookmark" do
-    it "creates a bookmark for a tweet and returns a 200 status with matching JSON schema" do 
-      post "/tweets/#{tweet.id}/bookmark"
-      expect(response).to have_http_status(200)
-      expect(response).to match_response_schema('tweet')
-    end
-  end
 end

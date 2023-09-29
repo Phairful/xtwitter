@@ -27,7 +27,7 @@ root "tweets#index"
   resources :users, only: [:create, :destroy, :show] do
     #personalized path
     member do
-      get 'tweets',    to: 'users#tweets',   as: 'tweet_user'
+      get 'tweets',    to: 'users#tweets',   as: 'tweets'
       get 'tweets_replies',   to: 'users#tweets_replies',   as: 'tweets_replies'
     end
   end
