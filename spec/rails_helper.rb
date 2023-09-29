@@ -8,6 +8,11 @@ require 'support/factory_bot.rb'
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'support/shoulda_matchers'
+require 'support/factory_bot'
+require 'support/response_schema'
+require 'faker'
+require 'json-schema'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
