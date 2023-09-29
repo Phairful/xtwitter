@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :tweets
+
   #Define your application routes per the DSL in 
   #https://guides.rubyonrails.org/routing.html
 
@@ -24,7 +26,7 @@ root "tweets#index"
 #----------------------------------------------------------------------------------------------------------  
   #Definition of the routes for managing user paths
   #common path
-  resources :users, only: [:create, :destroy, :show] do
+  resources :users, only: [:index , :create, :destroy, :show] do
     #personalized path
     member do
       get 'tweets',    to: 'users#tweets',   as: 'tweets'
