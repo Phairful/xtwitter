@@ -1,20 +1,18 @@
--- public.tweets definition
-
--- Drop table
-
--- DROP TABLE public.tweets;
-
-CREATE TABLE public.tweets (
-	id bigserial NOT NULL,
-	tweet_body varchar(280) NULL,
-	user_id int4 NULL,
-	reply_at_tweet_id int4 NULL,
-	created_at timestamp(6) NOT NULL,
-	updated_at timestamp(6) NOT NULL,
-	CONSTRAINT tweets_pkey PRIMARY KEY (id)
-);
-
-
--- public.tweets foreign keys
-
-ALTER TABLE public.tweets ADD CONSTRAINT fk_rails_e28b16f890 FOREIGN KEY (user_id) REFERENCES public.users(id);
+{
+	"type": "object",
+	"required": ["tweet"],
+	"properties": {
+	  "tweet": {
+		"type": "object",
+		"required": ["tweet_id", "tweet_body", "tweeting_user_id"],
+		"properties": {
+		  "tweet_id": { "type": "integer" },
+		  "tweet_body": { "type": "string", "maxLength": 280 },
+		  "tweeting_user_id": { "type": "integer" },
+		  "reply_at_tweet_id": { "type": "integer" },
+		  "created_at": { "type": "string", "format": "date-time" }
+		}
+	  }
+	}
+  }
+  
