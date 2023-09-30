@@ -1,3 +1,13 @@
+# == Schema Information
+#
+#   create_table "likes"
+#
+#    t.integer "tweet_id"
+#    t.integer "user_id"
+#    t.datetime "created_at", null: false
+#    t.datetime "updated_at", null: false
+#----------------------------------------------------------------------------------------------------------
+
 class Like < ApplicationRecord
     belongs_to :user, class_name: "User"
     belongs_to :tweet, class_name: "Tweet"

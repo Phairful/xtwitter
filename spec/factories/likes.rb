@@ -1,6 +1,8 @@
+require 'faker'
+
 FactoryBot.define do
   factory :like do
-    liked_tweet_id { 1 }
-    liking_user_id { 1 }
+    association :tweet, factory: :tweet
+    association :user, factory: :user
   end
 end

@@ -1,6 +1,8 @@
+require 'faker'
+
 FactoryBot.define do
   factory :bookmark do
-    bookmarked_tweet_id { 1 }
-    bookmarking_user_id { 1 }
+    association :tweet, factory: :tweet
+    association :user, factory: :user
   end
 end

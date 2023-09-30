@@ -1,6 +1,8 @@
+require 'faker'
+
 FactoryBot.define do
   factory :retweet do
-    retweed_tweet_id { 1 }
-    retweeting_user_id { 1 }
+    association :tweet, factory: :tweet
+    association :user, factory: :user
   end
 end

@@ -1,8 +1,9 @@
+require 'faker'
+
 FactoryBot.define do
   factory :quote do
-    quote_body { "MyString" }
-    quoting_user_id { 1 }
-    quoted_tweet_id { 1 }
-    tweet_quote_id { 1 }
+    association :tweet, factory: :tweet
+    association :user, factory: :user
+    quote_body { Faker::Lorem.sentence(word_count: rand(1..255))}
   end
 end

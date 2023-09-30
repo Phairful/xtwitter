@@ -1,3 +1,14 @@
+# == Schema Information
+#
+#   create_table "follows"
+#
+#   t.integer "follower_user_id"
+#   t.integer "followee_user_id"
+#   t.datetime "created_at", null: false
+#   t.datetime "updated_at", null: false
+#----------------------------------------------------------------------------------------------------------
+
+
 class Follow < ApplicationRecord
     belongs_to :follower_user, class_name: 'User'
     belongs_to :followee_user, class_name: 'User'
