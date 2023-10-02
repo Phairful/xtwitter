@@ -45,7 +45,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'faker'
   gem 'shoulda-matchers', '~> 5.0'
-
+  gem "json-schema"
 end
 
 group :development do

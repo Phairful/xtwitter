@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   #Define your application routes per the DSL in 
   #https://guides.rubyonrails.org/routing.html
 
@@ -24,10 +25,10 @@ root "tweets#index"
 #----------------------------------------------------------------------------------------------------------  
   #Definition of the routes for managing user paths
   #common path
-  resources :users, only: [:create, :destroy, :show] do
+  resources :users, only: [:index , :create, :destroy, :show] do
     #personalized path
     member do
-      get 'tweets',    to: 'users#tweets',   as: 'tweet_user'
+      get 'tweets',    to: 'users#tweets',   as: 'tweets'
       get 'tweets_replies',   to: 'users#tweets_replies',   as: 'tweets_replies'
     end
   end

@@ -1,0 +1,17 @@
+{
+	"type": "object",
+	"required": ["tweet"],
+	"properties": {
+	  "tweet": {
+		"type": "object",
+		"required": ["tweet_id", "tweet_body", "tweeting_user_id"],
+		"properties": {
+		  "tweet_id": { "type": "integer" },
+		  "tweet_body": { "type": "string", "maxLength": 280 },
+		  "tweeting_user_id": { "type": "integer" },
+		  "reply_at_tweet_id": { "type": "integer" },
+		  "created_at": { "type": "string", "format": "date-time" }
+		}
+	  }
+	}
+  }
