@@ -16,6 +16,6 @@ class Bookmark < ApplicationRecord
 #----------------------------------------------------------------------------------------------------------
   #created the validation for only having 1 bookmark per tweet per user
   validates :user, 
-    uniqueness: {scope: :tweet}
+    uniqueness: {scope: :tweet, message: "Has already been bookmarked"}
   
 end

@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/faker-ruby/faker.git
+  revision: 0a1f68c98c44d39b283a066684fe6973a0e07c40
+  branch: main
+  specs:
+    faker (3.2.1)
+      i18n (>= 1.8.11, < 2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -98,8 +106,6 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    faker (3.2.1)
-      i18n (>= 1.8.11, < 2)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.1)
@@ -256,7 +262,7 @@ DEPENDENCIES
   debug
   dotenv-rails
   factory_bot_rails
-  faker
+  faker!
   jbuilder
   json-schema
   pg (~> 1.1)

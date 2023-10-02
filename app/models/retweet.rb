@@ -16,7 +16,7 @@ class Retweet < ApplicationRecord
 #----------------------------------------------------------------------------------------------------------
    #created the validation for only having 1 retweet per tweet per user
     validates :user_id, 
-        uniqueness: {scope: :tweet_id}
+        uniqueness: {scope: :tweet_id, message: "Has already been retweed"}
 
   #created the association validation for the relations between tables user & tweet to retweet
   validates_associated :user, :tweet

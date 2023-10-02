@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'faker'
 
 RSpec.describe Follow, type: :model do
 
@@ -11,6 +12,16 @@ RSpec.describe Follow, type: :model do
 
   #---------------------------------------------------------------------------------------------------------
   context "validations" do
-    #it {should validate_uniqueness_of(:user).scoped_to(:tweet)}
+
+    it "should validate scoped uniqueness" do
+      user1 = create(:user)
+      user2 = create(:user)
+      follow1 = user1.following(user2)
+      follow2 = user1.following(user2)
+    
+      expect(follow1.valid?).to be true
+      expect(follow2.valid?).to be false
+      expect(follow2.errors.messages[:follower_user_id].first).to eq "Has already been followed"
+    end
   end
 end
