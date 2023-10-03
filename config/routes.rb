@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   #Define your application routes per the DSL in 
   #https://guides.rubyonrails.org/routing.html
 
-#namespace :api , defaults: {format: :json} do
+namespace :api , defaults: {format: :json} do
 #Root path route ("/")
 root "tweets#index"
 
@@ -34,4 +34,4 @@ root "tweets#index"
     end
   end
 end
-#end
+end
