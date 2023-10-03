@@ -8,7 +8,7 @@
 #    t.string "bio"
 #   t.string "location"
 #   t.datetime "created_at", null: false
-#   t.datetime "updated_at", null: false#
+#   t.datetime "updated_at", null: false
 #
 #----------------------------------------------------------------------------------------------------------
 class User < ApplicationRecord

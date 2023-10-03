@@ -5,26 +5,24 @@
       "user": {
         "type": "object",
         "required": [
-          "auth_token",
-          "created_at",
+          "password",
           "email",
-          "first_name",
-          "id",
-          "last_name",
-          "neighborhood_id",
-          "phone_number",
-          "updated_at"
+          "username",
+          "user_id",
+          "created_at",
+          "display_name",
+          "bio",
+          "location"
         ],
         "properties": {
-          "auth_token": { "type": "string" },
+          "password": { "type": "string" },
           "created_at": { "type": "string", "format": "date-time" },
           "email": { "type": "string" },
-          "first_name": { "type": "string" },
-          "id": { "type": "integer" },
-          "last_name": { "type": "string" },
-          "neighborhood_id": { "type": "integer" },
-          "phone_number": { "type": "string" },
-          "updated_at": { "type": "string", "format": "date-time" }
+          "username": { "type": "string", "maxLength": 20 },
+          "user_id": { "type": "integer" },
+          "display_name": { "type": "string", "maxLength": 20 },
+          "bio": { "type": "integer" },
+          "location": { "type": "string" }
         }
       }
     }

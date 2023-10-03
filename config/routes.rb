@@ -3,20 +3,21 @@ Rails.application.routes.draw do
   #Define your application routes per the DSL in 
   #https://guides.rubyonrails.org/routing.html
 
+#namespace :api , defaults: {format: :json} do
 #Root path route ("/")
 root "tweets#index"
 
 #----------------------------------------------------------------------------------------------------------  
   #Definition of the routes for managing user paths
   #common path
-  resources :tweets, only: [:create, :update, :destroy, :show] do
+  resources :tweets , only: [:create, :update, :destroy, :show, :edit, :new] do
   #personalized path
     member do
       post 'like',    to: 'tweets#like',    as: 'like'
-      delete 'unlike', to: 'tweets#unlike',  as: 'unlike'
+      delete 'unlike', to: 'tweets#unlike'
       post 'retweet',  to: 'tweets#retweet',  as: 'retweet'
       post 'quote',    to: 'tweets#quote',    as: 'quote'
-      get 'reply',     to: 'tweets#reply',    as: 'reply'
+      post 'reply',     to: 'tweets#reply',    as: 'reply'
       post 'bookmark', to: 'tweets#bookmark', as: 'bookmark'
 
     end
@@ -25,7 +26,7 @@ root "tweets#index"
 #----------------------------------------------------------------------------------------------------------  
   #Definition of the routes for managing user paths
   #common path
-  resources :users, only: [:index , :create, :destroy, :show] do
+  resources :users, only: [:index , :create, :destroy, :show, :edit, :new] do
     #personalized path
     member do
       get 'tweets',    to: 'users#tweets',   as: 'tweets'
@@ -33,3 +34,4 @@ root "tweets#index"
     end
   end
 end
+#end

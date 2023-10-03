@@ -9,17 +9,18 @@ RSpec.describe UsersController, type: :routing do
           it "Route to /tweets using GET to UsersController" do
             expect(get:'/users').to route_to('users#index')
           end
-
-            it "Route to /tweets using POST to UsersController" do
-              expect(post:'/users').to route_to(controller: "users", action: "create")
-
-            end
-            it "Route to /users/:id using GET to UsersController" do
-              expect(get:'/users/1').to route_to(controller: "users", action: "show", id: "1")
-            end
-            it "Route to /users/:id using PATCH to UsersController" do
-              expect(delete:'/users/1').to route_to(controller: "users", action: "destroy", id: "1")
-            end
+          it "Route to /users/edit using GET to UsersController" do
+            expect(get:'/users/1/edit').to route_to(controller: "users", action: "edit", id: "1")
+          end
+          it "Route to /tweets using POST to UsersController" do
+            expect(post:'/users').to route_to(controller: "users", action: "create")
+          end
+          it "Route to /users/:id using GET to UsersController" do
+            expect(get:'/users/1').to route_to(controller: "users", action: "show", id: "1")
+          end
+          it "Route to /users/:id using PATCH to UsersController" do
+            expect(delete:'/users/1').to route_to(controller: "users", action: "destroy", id: "1")
+          end
         end
     #----------------------------------------------------------------------------------------------------------
         #SPECS FOR USERS THAT ARE A PERSONALIZED PATH

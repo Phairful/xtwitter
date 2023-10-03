@@ -1,5 +1,5 @@
 class TweetsController < ApplicationController
-  before_action :set_tweet, only: %i[ show edit update destroy ]
+  before_action :set_tweet, only: %i[show edit update destroy]
 
   # GET /tweets or /tweets.json
   def index
@@ -22,38 +22,46 @@ class TweetsController < ApplicationController
   #  @tweet = Tweet.new
   #end
 
-  # GET /tweets/1/edit
-  #def edit
-  #end
+  #GET /tweets/1/edit
+  def edit
+      @tweet = Tweet.find(params[:id])
+      render :edit
+      #respond_to do |format|
+        #format.html { render :edit, locals: { question: question } }
+      #end
+  end
 
 
   # POST /tweets or /tweets.json
   def create
     @tweet = Tweet.new(tweet_params)
-    if @tweet.save
-      flash[:success] = "New tweet successfully created!"
-      format.html { render :new}
-      format.json { render :show, status: :created, location: @tweet }
-    else
-      flash.now[:error] = "tweet creation failed"
-      format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: @tweet.errors, status: :unprocessable_entity }
+    respond_to do |format|
+      if @tweet.save
+        flash[:success] = "New tweet successfully created!"
+        format.html { redirect_to tweet_url(@tweet), notice: "tweet was successfully created."}
+        format.json { render :show, status: :created, location: @tweet }
+      else
+        flash.now[:error] = "tweet creation failed"
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @tweet.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   # PATCH/PUT /tweets/1 or /tweets/1.json
-  def update
+  def update 
     @tweet = Tweet.find(params[:id])
-    if @tweet.update(params.require(:tweet).permit(:tweet_body, :user_id, :reply_at_tweet_id))
-      flash[:success] = "Tweet updated!"
-      redirect_to todo_url(@tweet)
-      format.html { render :new}
-      format.json { render :show, status: :created, location: @tweet }
-    else
-      flash.now[:error] = "tweet update failed"
-      render :edit
-    end
+    respond_to do |format|
+        if @tweet.update(tweet_params)
+          format.html { redirect_to tweets_url(@tweet), notice: "Tweet was successfully updated." }
+          format.json { render :show, status: :ok, location: @tweet }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @tweet.errors, status: :unprocessable_entity }
+        end
+      end
   end
+
 
   # DELETE /tweets/1 or /tweets/1.json
   def destroy
@@ -64,25 +72,29 @@ class TweetsController < ApplicationController
   end
 
   def like
-    @like=Like.new(tweet_id: @tweet, user_id: :user)
-    #@tweet
+    @tweet = Tweet.find(params[:id])
+    @like=Like.new(tweet_id: @tweet.id, user_id: :user)
+
     respond_to do |format|
       format.html { redirect_to tweets_url}
-      format.json { render :show, status: :created, location: @like }
+      format.json { render :show, status: :created, location: @tweet }
     end
   end
 
   def unlike
-    @tweet.unlike
+    @tweet = Tweet.find(params[:id])
+    like = Like.find_by(tweet_id: @tweet.id)
+    like.delete
     respond_to do |format|
       format.html { redirect_to tweets_url}
-      format.json { render :show}
+      #format.json { render :show, status: :created, location: @tweet }
     end
   end
 
   def retweet
-    #@retweet=Retweet.new(tweet_id: @tweet.id, user_id: :user)
-    #@tweet.retweet
+    @tweet = Tweet.find(params[:id])
+    @retweet=Retweet.new(tweet_id: @tweet.id, user_id: :user)
+
     respond_to do |format|
       format.html { redirect_to tweets_url}
       format.json { render :show, status: :created, location: @tweet }
@@ -90,8 +102,8 @@ class TweetsController < ApplicationController
   end
 
   def quote
-    #@like=Quote.new(tweet_id: @tweet.id, user_id: :user, quote_body: )
-    #@tweet.quoting
+    @tweet = Tweet.find(params[:id])
+    @Retweet=Retweet.new(tweet_id: @tweet.id, user_id: :user)
     respond_to do |format|
       format.html { redirect_to tweets_url, notice: "Tweet was successfully destroyed." }
       format.json { render :show, status: :created, location: @tweet }
@@ -99,13 +111,15 @@ class TweetsController < ApplicationController
   end
 
   def reply
-    @tweet
-    #@reply = Tweet.New (tweet_id: @tweet.id, user_id: :user, reply_at_tweet_id:@tweet )
-    #@tweet = @reply
+    original_tweet = @tweet
+    current_user = tweet_params[:user_id]
+
+    #@quote_tweet = Tweet.new(user_id: current_user, content: tweet_params[:content], quote_id: original_tweet.id)
+    @reply = Tweet.new(user_id: :user, tweet_body: tweet_params[:tweet_body], reply_at_tweet_id: @tweet.id)
     respond_to do |format|
-      if @tweet.save!
-        format.html { redirect_to tweet_url(@tweet), notice: "Tweet was successfully created." }
-        format.json { render :show, status: :created, location: @tweet }
+      if @reply.save
+        format.html { redirect_to tweet_url(@tweet), notice: "Reply was successfully created." }
+        format.json { render :show, status: :created, location: @reply }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @tweet.errors, status: :unprocessable_entity }
@@ -114,10 +128,14 @@ class TweetsController < ApplicationController
   end
 
   def bookmark
+    @tweet = Tweet.find(params[:id])
+    @bookmark=Bookmark.new(tweet_id: @tweet.id, user_id: :user)
+
+    respond_to do |format|
+      format.html { redirect_to tweets_url}
+      format.json { render :show, status: :created, location: @tweet }
+    end
   end
-
-
-
 
 #-------------------------------------------------------------------------------------------------------
 

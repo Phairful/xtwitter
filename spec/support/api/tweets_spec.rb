@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'faker'
 RSpec.describe "Tweets API", type: :request do
 
   #DONE
@@ -7,7 +8,7 @@ RSpec.describe "Tweets API", type: :request do
     let(:tweet_params) { { tweet: { tweet_body: "asdasdasd" ,user_id: user.id } } }
     
     it "creates a new tweet and returns a 200 status with matching JSON schema" do 
-      post "/tweets", params: tweet_params, as: :json
+      post "/api/tweets", params: tweet_params, as: :json
       expect(response).to have_http_status(201)
       expect(response).to match_response_schema('tweet')
     end
