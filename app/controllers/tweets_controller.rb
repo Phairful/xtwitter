@@ -47,6 +47,8 @@ class TweetsController < ApplicationController
     if @tweet.update(params.require(:tweet).permit(:tweet_body, :user_id, :reply_at_tweet_id))
       flash[:success] = "Tweet updated!"
       redirect_to todo_url(@tweet)
+      format.html { render :new}
+      format.json { render :show, status: :created, location: @tweet }
     else
       flash.now[:error] = "tweet update failed"
       render :edit
