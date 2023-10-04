@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
 
   #Define your application routes per the DSL in 
   #https://guides.rubyonrails.org/routing.html
@@ -7,7 +8,7 @@ namespace :api do #defaults: {format: :json} do gotta check this out for routing
 
 #Root path route ("/")
 root "tweets#index"
-
+post:auth, to: "authentication#create"
 #----------------------------------------------------------------------------------------------------------  
   #Definition of the routes for managing user paths
   #common path
@@ -34,5 +35,6 @@ root "tweets#index"
       get 'tweets_replies',   to: 'users#tweets_replies',   as: 'tweets_replies'
     end
   end
+  
 end
 end

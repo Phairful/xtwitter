@@ -12,6 +12,10 @@
 #
 #----------------------------------------------------------------------------------------------------------
 class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
     #my leader is the person being follow, and the follower is the making the follow
     #my followers are the persons that i lead,
     #if i want to see my follower i should look up for the followees of mine are

@@ -10,8 +10,21 @@ class ApiController < ApplicationController
       end
     end
   
-    private
-  
+    def authenticate_user!
+      payload = JsonWebToken.decode(auth_user)
+        @current_user = User.find(payload["sub"])
+        p @current_user
+      rescue JWT::ExpiredSignature
+        render json: {errors: ["Expired User"]}, status: :unauthorized
+      rescue JWT::DecodeError
+        render json: {errors: ["Wrong credentials for User"]}, status: :unauthorized
+    end
+
+    #private
+    def auth_user
+      @auth_user ||= request.headers.fetch("Authorization", "").split(" ").last
+    end
+
     def set_default_format
       request.format = :json unless params[:format]
     end
