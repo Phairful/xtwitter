@@ -1,32 +1,27 @@
 {
-    "type": "object",
-    "required": ["user"],
-    "properties": {
-      "user": {
-        "type": "object",
-        "required": [
-          "auth_token",
-          "created_at",
-          "email",
-          "first_name",
-          "id",
-          "last_name",
-          "neighborhood_id",
-          "phone_number",
-          "updated_at"
-        ],
-        "properties": {
-          "auth_token": { "type": "string" },
-          "created_at": { "type": "string", "format": "date-time" },
-          "email": { "type": "string" },
-          "first_name": { "type": "string" },
-          "id": { "type": "integer" },
-          "last_name": { "type": "string" },
-          "neighborhood_id": { "type": "integer" },
-          "phone_number": { "type": "string" },
-          "updated_at": { "type": "string", "format": "date-time" }
-        }
-      }
-    }
-  }
-  
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "auth_token": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "email": { "type": "string" },
+    "first_name": { "type": "string" },
+    "id": { "type": "integer" },
+    "last_name": { "type": "string" },
+     "neighborhood_id": { "type": "integer" },
+    "phone_number": { "type": "string" },
+    "updated_at": { "type": "string", "format": "date-time" }
+    },
+  "required": [
+    "auth_token",
+    "created_at",
+    "email",
+    "first_name",
+    "id",
+    "last_name",
+    "neighborhood_id",
+    "phone_number",
+    "updated_at"
+  ]
+}
+

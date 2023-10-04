@@ -2,31 +2,29 @@ require 'rails_helper'
 
 RSpec.describe "Tweets API", type: :request do
 
+  #DONE
   describe "Tweet Creation" do
     let(:user) { create(:user) }
-    let(:tweet_params) { { tweet: { tweet_body: "Hello", user_id: user.id } } }
+    let(:tweet_params) { { tweet: { tweet_body: "asdasdasd" ,user_id: user.id } } }
     
     it "creates a new tweet and returns a 200 status with matching JSON schema" do 
-      post "/tweets", params: tweet_params, as: :json # Send tweet_params as JSON
-      expect(response).to have_http_status(200)
+      post "/api/tweets", params: tweet_params, as: :json
+      expect(response).to have_http_status(201)
       expect(response).to match_response_schema('tweet')
     end
   end
-
+#DONE
   describe "Tweet Update" do
     let(:user) { create(:user) }
     let(:tweet) { create(:tweet, user: user) }
-    
-    # Define the tweet_params with the attributes to update
-    let(:tweet_params) do {user_id: user.id,} end
-    
     it "updates an existing tweet and returns a 200 status with matching JSON schema" do
-      patch "/tweets/#{tweet.id}", params: { tweet: tweet_params }, as: :json
+      update_tweet_params= {tweet_body: "New body"}
+      patch "/api/tweets/#{tweet.id}", params: { tweet: update_tweet_params}, as: :json
       expect(response).to have_http_status(200)
       expect(response).to match_response_schema('tweet')
     end
-
   end
+
 
   describe "Tweets like" do
     let(:user) { create(:user) }

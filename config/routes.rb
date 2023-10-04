@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   #Define your application routes per the DSL in 
   #https://guides.rubyonrails.org/routing.html
 
+namespace :api do #defaults: {format: :json} do gotta check this out for routing purpose
+
 #Root path route ("/")
 root "tweets#index"
 
@@ -32,4 +34,5 @@ root "tweets#index"
       get 'tweets_replies',   to: 'users#tweets_replies',   as: 'tweets_replies'
     end
   end
+end
 end

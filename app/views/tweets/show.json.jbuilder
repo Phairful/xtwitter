@@ -1,1 +1,3 @@
-json.partial! "tweets/tweet", tweet: @tweet
+json.tweet do
+    json.partial! @tweet, partial: 'api/tweets/tweet', as: :tweet
+  end
