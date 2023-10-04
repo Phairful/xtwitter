@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
+  
   devise_for :users
-
   #Define your application routes per the DSL in 
   #https://guides.rubyonrails.org/routing.html
 
 namespace :api do #defaults: {format: :json} do gotta check this out for routing purpose
 
+post 'log_in', to: 'authentication#create'
 #Root path route ("/")
 root "tweets#index"
 post:auth, to: "authentication#create"

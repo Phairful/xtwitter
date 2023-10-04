@@ -1,5 +1,6 @@
-class Api::TweetsController < ApiController
-     
+class Api::TweetsController < Api::ApiController
+    include TweetData
+    before_action :set_tweet, only: %i[show edit update destroy]
     
     def index
         @tweets = Tweet.all
@@ -31,7 +32,10 @@ class Api::TweetsController < ApiController
     end
     
     private
-    
+    def set_tweet
+        @tweet = Tweet.find(params[:id])
+    end
+
     def tweet_params
         params.require(:tweet).permit(:tweet_body, :user_id, :reply_at_tweet_id)
     end

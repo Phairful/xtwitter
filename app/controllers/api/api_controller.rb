@@ -1,4 +1,4 @@
-class ApiController < ApplicationController 
+class Api::ApiController < ApplicationController 
     skip_before_action :verify_authenticity_token
 
     before_action :set_default_format
@@ -20,13 +20,20 @@ class ApiController < ApplicationController
         render json: {errors: ["Wrong credentials for User"]}, status: :unauthorized
     end
 
-    #private
+    private
     def auth_user
       @auth_user ||= request.headers.fetch("Authorization", "").split(" ").last
-    end
+    end 
+
 
     def set_default_format
-      request.format = :json unless params[:format]
+      request.format = :json
+    end
+
+    def render_errors(instance)
+      @errors = instance.errors
+      @klass = instance.class
+      render 'shared/errors', status: :unprocessable_entity
     end
 
 end

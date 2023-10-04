@@ -1,4 +1,4 @@
-class Api::AuthenticatioonController < ApiController
+class Api::AuthenticationController < ApiController
     skip_before_action :authenticate_user!
 
     def create
