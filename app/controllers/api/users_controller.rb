@@ -1,8 +1,9 @@
 class Api::UsersController < Api::ApiController
-
+    before_action :authenticate_user!
+    
     def index
         @users = Tweet.all
-        render_response('api/tweets/index')
+        render_response('api')
     end
 
     def set_user

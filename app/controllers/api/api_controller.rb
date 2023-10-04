@@ -6,7 +6,7 @@ class Api::ApiController < ApplicationController
   
     def render_response(view_name)
       respond_to do |format|
-        format.json { render view_name }
+        format.json { render view_name, status: :ok, location: @tweet }
       end
     end
   
@@ -15,7 +15,7 @@ class Api::ApiController < ApplicationController
         @current_user = User.find(payload["sub"])
         p @current_user
       rescue JWT::ExpiredSignature
-        render json: {errors: ["Expired User"]}, status: :unauthorized
+        render json: {errors: ["Expired credentials for User"]}, status: :unauthorized
       rescue JWT::DecodeError
         render json: {errors: ["Wrong credentials for User"]}, status: :unauthorized
     end
