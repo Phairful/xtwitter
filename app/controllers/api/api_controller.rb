@@ -1,14 +1,14 @@
 class Api::ApiController < ApplicationController 
-    skip_before_action :verify_authenticity_token
-
     before_action :set_default_format
     before_action :authenticate_user!
+    skip_before_action :verify_authenticity_token
   
     def render_response(view_name)
       respond_to do |format|
-        format.json { render view_name, status: :ok, location: @tweet }
+        format.json { render view_name }
       end
     end
+  
   
     def authenticate_user!
       payload = JsonWebToken.decode(auth_user)

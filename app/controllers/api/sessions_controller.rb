@@ -1,15 +1,14 @@
 class Api::SessionsController < Api::ApiController
-    skip_before_action :authenticate_user!
+    #skip_before_action :authenticate_user!
 
-    def create_credentials
+    def new
         email = params[:email]
         password = params[:password]
-        token = create_credentials(email, password)
+        token = create(email, password)
         render_response(new, status: :ok)
     end
       
-    def destroy_credentials
-        id = params[:id]
+    def destroy
         user = User.find(id)
         user.update(jwt_token: '')
         if user.jwt_token.empty?
@@ -19,7 +18,7 @@ class Api::SessionsController < Api::ApiController
         end
     end
       
-    def create_credentials(email, password)
+    def create(email, password)
         token = Api::AuthenticationController.new
         token = token.create(email, password)
         token

@@ -6,7 +6,7 @@ class Api::TweetsController < Api::ApiController
     
     def web #move to another controller homepage for /root
         @tweets = Tweet.all
-        render_response('tweets/homepage')
+        render_response('tweets/web')
     end
 
     def index

@@ -1,15 +1,7 @@
 Rails.application.routes.draw do
   
-  namespace :api do #defaults: {format: :json} do gotta check this out for routing purpose
-    
-    devise_for :users #, controllers: { sessions: "api/sign_in", registrations: "api/loging" }
-
-    get 'sign_in', to: 'registration#create_user'
-    post 'sign_in', to: 'registration#create_user'
-    get 'log_in', to: 'sessions#create_token'
-    post 'log_in', to: 'sessions#create_token'
-    delete 'log_out', to: 'sessions#destroy_token'
-
+  namespace :api do 
+    devise_for :users, controllers: { registrations: 'api/registration' , sessions: "api/sessions"}
     #Root path route ("/")
     root "tweets#web"
 
@@ -36,12 +28,12 @@ Rails.application.routes.draw do
       #Definition of the routes for managing user paths
       
       #common path
-      resources :users, only: [:create, :destroy, :show] do
+      resources :users, only: [:show] do
         
         #personalized path
         member do
-          get 'tweets',    to: 'users#tweets',   as: 'tweets'
-          get 'tweets_replies',   to: 'users#tweets_replies',   as: 'tweets_replies'
+          get 'tweets(/page/:page)',    to: 'users#tweets',   as: 'tweets'
+          get 'tweets_replies(/page/:page)',   to: 'users#tweets_replies',   as: 'tweets_replies'
         end
     end
   end
