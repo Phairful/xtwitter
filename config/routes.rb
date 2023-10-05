@@ -1,12 +1,18 @@
 Rails.application.routes.draw do
-  
+  devise_for :users
   namespace :api do 
-    devise_for :users, controllers: { registrations: 'api/registration' , sessions: "api/sessions"}
-    #Root path route ("/")
-     "tweets#web"
-dfsdfsdf
+    
+    #Root path route ("/") will be remade into a home controller
+     root "tweets#web"
+
     #----------------------------------------------------------------------------------------------------------  
     #Definition of the routes for managing user paths
+      post 'registration' , to: "registration#create_user"
+      get 'registration' , to: "registration#create_user"
+      post 'registration' , to: "registration#create_credentials"
+      get 'sessions' , to: "sessions#new_login"
+      post 'sessions' , to: "sessions#create_login"
+      delete 'sessions' , to: "sessions#destroy_logout"
       
     #common p
     resources :tweets, only: [:create, :update, :destroy] do
