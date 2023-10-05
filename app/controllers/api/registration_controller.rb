@@ -1,4 +1,4 @@
-class Api::RegistrationController < Api::ApiController
+class Api::RegistrationController < Api::BaseController
 
     skip_before_action :authenticate_user!
   

@@ -1,4 +1,5 @@
-class Api::SessionsController < Api::ApiController
+class Api::SessionsController < Api::BaseController
+    before_action :set_default_format
     #skip_before_action :authenticate_user!
 
     def new

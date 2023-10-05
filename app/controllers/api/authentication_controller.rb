@@ -1,4 +1,5 @@
-class Api::AuthenticationController < Api::ApiController
+class Api::AuthenticationController < Api::BaseController
+    before_action :set_default_format
     skip_before_action :authenticate_user!
 
     def create

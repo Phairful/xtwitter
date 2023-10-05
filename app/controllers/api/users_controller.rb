@@ -1,10 +1,6 @@
-class Api::UsersController < Api::ApiController
+class Api::UsersController < Api::BaseController
+    before_action :set_default_format
     before_action :authenticate_user!
-    
-    def index
-        @users = Tweet.all
-        render_response('api')
-    end
 
     def set_user
         @user = User.find(params[:id])
@@ -15,43 +11,15 @@ class Api::UsersController < Api::ApiController
         params.require(:user).permit(:username, :display_name, :email, :password, :bio, :location)
       end
 
-      # GET /users or /users.json
-    def index
-      @users = User.all
-  end
-
 
   # GET /users/1 or /users/1.json
   def show
 
   end
 
-  # GET /users/new
-  def new
-      @user = User.new
-      # returns a form
-  end
-
   # GET /users/1/edit 
   def edit
       #returns a html 
-  end
-
-  # POST /users or /users.json 
-  def create 
-      # parameters:
-      # {authenticity_token=>[filtered] and the hash "user"=>{"email"=>'', "pass"=>''} received from the form 
-      @user = User.new(user_params)
-
-      respond_to do |format|
-          if @user.save
-              #format.html { redirect_to users_url(@user), notice: "User was successfully created."}
-              format.json { render :show, status: :created, location: @user }
-          else
-              #format.html { render :edit, status: :unprocessable_entity}
-              format.json { render json: @user.errors, status: :unprocessable_entity }
-          end
-      end
   end
 
   # PATCH/PUT /users/1 or /users/1/.json
@@ -64,16 +32,6 @@ class Api::UsersController < Api::ApiController
               #format.html { render :edit, status: :unprocessable_entity}
               format.json { render json: @user.errors, status: :unprocessable_entity }
           end
-      end
-  end
-
-  # DELETE /users/1 or /users/1.json
-  def destroy
-      @user.destroy
-
-      respond_to do |format|
-          #format.html { redirect_to users_url, notice: "User was successfully destroyed."}
-          format.json { head :no_content }
       end
   end
 end

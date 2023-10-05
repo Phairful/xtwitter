@@ -1,5 +1,6 @@
-class Api::TweetsController < Api::ApiController
+class Api::TweetsController < Api::BaseController
     include TweetData
+    before_action :set_default_format
     before_action :set_tweet, only: %i[show edit update destroy]
     before_action :authenticate_user!
     skip_before_action :authenticate_user! , only:[:index]
@@ -9,11 +10,11 @@ class Api::TweetsController < Api::ApiController
         render_response('tweets/web')
     end
 
-    def index
-        @tweet = Tweet.new
-        @tweets = Tweet.all.order(created_at: :asc)
-        render_response('tweets/index')
-    end
+    #def index
+        #@tweet = Tweet.new
+        #@tweets = Tweet.all.order(created_at: :asc)
+        #render_response('tweets/index')
+    #end
     
     def create
         @tweet = create_new(request) #try this

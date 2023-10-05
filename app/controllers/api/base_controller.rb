@@ -1,4 +1,4 @@
-class Api::ApiController < ApplicationController 
+class Api::BaseController < ApplicationController 
     before_action :set_default_format
     before_action :authenticate_user!
     skip_before_action :verify_authenticity_token

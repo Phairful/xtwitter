@@ -3,13 +3,13 @@ Rails.application.routes.draw do
   namespace :api do 
     devise_for :users, controllers: { registrations: 'api/registration' , sessions: "api/sessions"}
     #Root path route ("/")
-    root "tweets#web"
-
+     "tweets#web"
+dfsdfsdf
     #----------------------------------------------------------------------------------------------------------  
     #Definition of the routes for managing user paths
       
-    #common path
-    resources :tweets, only: [:index, :create, :update, :destroy] do
+    #common p
+    resources :tweets, only: [:create, :update, :destroy] do
       
       #personalized path
       member do
