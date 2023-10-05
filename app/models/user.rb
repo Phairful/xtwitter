@@ -12,6 +12,10 @@
 #
 #----------------------------------------------------------------------------------------------------------
 class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
     #my leader is the person being follow, and the follower is the making the follow
     #my followers are the persons that i lead,
     #if i want to see my follower i should look up for the followees of mine are
@@ -51,30 +55,24 @@ class User < ApplicationRecord
         .having("follows.follower_user_id": id).count}
     scope :followings_count, ->(id) {
         joins("INNER JOIN follows ON follows.followee_user_id = users.id")
-        .group("follows.followee_tweet_id")
-        .having("follows.followee_tweet_id": id).count}   
+        .group("follows.followee_user_id")
+        .having("follows.followee_user_id": id).count}   
     
     scope :likes_by_user, ->(id) {Tweet.user_likes(id)}
-
     scope :bookmarks_by_user, ->(id) {Tweet.user_bookmarks(id)}
     scope :retweets_by_user, ->(id) {Tweet.user_retweets(id)}
-    
     scope :tweets_by_user, ->(id) {Tweet.user_tweets(id)}
-        #joins("INNER JOIN tweets ON tweets.user_id = users.id")
-        #.where("tweets.reply_at_tweet_id IS NULL")
-        #.group("tweets.user_id")
-        #.having("tweets.user_id = ?", id)
-
-    scope :tweets_replies_by_user, ->(id) {
-        joins("INNER JOIN tweets ON tweets.user_id = users.id")
-        .group("tweets.user_id")
-        .having("tweets.user_id": id)}
+    scope :tweets_replies_by_user, ->(id) {Tweet.user_tweets_replies(id)}
 
 #----------------------------------------------------------------------------------------------------------
 
     #Method that allows creating a new tweet
     def tweeting (tweet_body)
         t = Tweet.create user_id: id, tweet_body:tweet_body
+    end
+
+    def following (user_other)
+        f= Follow.create follower_user_id: id, followee_user_id: user_other.id
     end
 
 end

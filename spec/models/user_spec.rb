@@ -43,52 +43,53 @@ end
 #---------------------------------------------------------------------------------------------------------
 # SCOPES SPECS
   describe "scopes" do
-    #let(:user) { create(:user) }
-    #let(:another_user) { create(:user) } 
-    #let(:tweet) { create(:tweet, user: user) }
-    
- 
-      #create_list(:tweet, 6, user: user)
-      #create_list(:retweet, 4, original_retweet: tweet) 
-      #create_list(:quote, 3, original_quote: tweet)
-      #Crear replies para el usuario
-      #tweet_from_another_user = create(:tweet, user: another_user)
-      #create(:reply, user: user, tweet: tweet_from_another_user)
-    #end
 
     it "return likes_by_user" do
       user = create(:user)
-      likes = User.likes_by_user(user.id)
+      likes = User.likes_by_user(user)
       expect(likes).to include
     end
 
     it "return bookmarks_by_user" do
       user = create(:user)
-      bookmarks = User.bookmarks_by_user(user.id)
+      bookmarks = User.bookmarks_by_user(user)
       expect(bookmarks).to include
     end
 
     it "return retweets_by_user" do
       user = create(:user)
-      retweets = User.retweets_by_user(user.id)
+      retweets = User.retweets_by_user(user)
       expect(retweets).to include
     end
 
     it "return tweets_by_user" do
       user = create(:user)
-      tweets = User.tweets_by_user(user.id)
-      expect(tweets).to include
+      tweet1 = create(:tweet, user: user)
+      tweet2 = create(:tweet, user: user)
+      reply = create(:tweet, user: user, reply_at_tweet_id: tweet2.id)
+      tuser= User.tweets_by_user(user)
+      expect(tuser.length).to eq 2
+      #expect(tweets).to_eq (test)
+    end
+
+    it "return user_tweets_replies" do
+      user = create(:user)
+      tweet1 = create(:tweet, user: user)
+      tweet2 = create(:tweet, user: user)
+      reply = create(:tweet, user: user, reply_at_tweet_id: tweet2.id)
+      tuser= User.tweets_replies_by_user(user)
+      expect(tuser.length).to eq 3
     end
 
     it "return followers_count" do
       user = create(:user)
-      followers = User.tweets_by_user(user.id)
+      followers = User.followers_count(user.id)
       expect(followers).to include
     end
 
     it "return followings_count" do
       user = create(:user)
-      following = User.tweets_by_user(user.id)
+      following = User.followings_count(user.id)
       expect(following).to include
     end
 

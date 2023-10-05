@@ -1,0 +1,20 @@
+{
+    "required": ["tweet_statistics"],
+    "properties": {
+      "tweet_statistics" : {
+        "type" : "array",
+        "required" : [
+            "quotes",
+            "retweets",
+            "likes",
+            "interactions"
+        ],
+        "properties" : {
+            "quotes" : { "type" : "integer" },
+            "retweets" : { "type" : "integer" },
+            "likes": { "type" : "integer" },
+            "interactions": { "type" : "integer" }
+        }
+      }
+    }
+}

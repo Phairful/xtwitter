@@ -10,7 +10,6 @@
 #----------------------------------------------------------------------------------------------------------
 class Tweet < ApplicationRecord
 #----------------------------------------------------------------------------------------------------------
-    belongs_to :original_tweet, class_name: "Tweet", optional: true, foreign_key: "reply_at_tweet_id"
     belongs_to :user, class_name: "User"
     belongs_to :reply_at_tweet, class_name: "Tweet", optional: true
     has_many :likes
@@ -50,25 +49,17 @@ class Tweet < ApplicationRecord
         .group("likes.tweet_id")
         .having("likes.tweet_id": id).count}
     
-    #find tweets for all the parameters required
     
-    scope :user_tweets, -> (user_id) {
-        joins(:users)
-        .where(users: { user_id: user_id})} 
-        #and tweets: {reply_at_tweet_id: null})}
+    #find tweets for all the parameters required
+    scope :user_tweets, -> (user) {where(tweets: { user_id: user, reply_at_tweet: nil} )} 
 
-    scope :user_retweets, ->(user_id) {
-        joins(:retweets)
-        .where(retweets: { user_id: user_id })
-        }
-    scope :user_likes, ->(user_id) {
-        joins(:likes)
-        .where(likes: { user_id: user_id })
-        }
-    scope :user_bookmarks, ->(user_id) {
-        joins(:bookmarks)
-        .where(bookmarks: { user_id: user_id })
-        }
+    scope :user_tweets_replies, -> (user) {where(tweets: { user_id: user} )}
+            
+    scope :user_retweets, ->(user) {joins(:retweets).where(retweets: { user_id: user.id })}
+
+    scope :user_likes, ->(user) {joins(:likes).where(likes: { user_id: user.id })}
+
+    scope :user_bookmarks, ->(user) {joins(:bookmarks).where(bookmarks: { user_id: user.id })}
 
 #----------------------------------------------------------------------------------------------------------
     #created method to create new tagging record for each hashtag, and a  hashtag id in tagging table if a registry doesn't exist
@@ -119,11 +110,11 @@ class Tweet < ApplicationRecord
     
     #Method that allows quoting the tweet
     def quoting (user_you, quote_text)
-        Quote.create user_id: user_you , tweet_id: self.id, quote_body:quote_text
+        Quote.create user_id: user_you.id , tweet_id: self.id, quote_body:quote_text
     end
 
     def replying (user_you, body)
-        Tweet.create user_id:user_you, tweet_body:body, reply_at_tweet: self.id
+        Tweet.create user_id:user_you.id, tweet_body: body, reply_at_tweet_id: self.id
     end 
 
 end

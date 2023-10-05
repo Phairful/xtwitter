@@ -2,35 +2,42 @@ require 'rails_helper'
 
 RSpec.describe "Tweets API", type: :request do
 
+  #DONE
   describe "Tweet Creation" do
-      let(:user) { create(:user)}
-      let(:tweet) { create(:tweet, user: user)}
-      #tweet_params = (:tweet_body "holas")
-      it "creates a new tweet and returns a 200 status with matching JSON schema" do 
-      post "/tweets" #param {:tweet , :tweet_body: "hello", :user_id: user}
-      expect(response).to have_http_status(200)
-      expect(response).to response_schema('tweet')
-    end
-  end
-
-  describe "Tweet Update" do
-    let(:user) { create(:user)}
-    let(:tweet) { create(:tweet, user: user)}
+    let(:user) { create(:user) }
+    let(:tweet_params) { { tweet: { tweet_body: "asdasdasd" ,user_id: user.id } } }
     
-    it "updates an existing tweet and returns a 200 status with matching JSON schema" do 
-      patch "/tweets/#{tweet.id}", to_param: {tweet: tweet_params }
+    it "creates a new tweet and returns a 200 status with matching JSON schema" do 
+      post "/api/tweets", params: tweet_params, as: :json
+      expect(response).to have_http_status(201)
+      expect(response).to match_response_schema('tweet')
+    end
+  end
+#DONE
+  describe "Tweet Update" do
+    let(:user) { create(:user) }
+    let(:tweet) { create(:tweet, user: user) }
+    it "updates an existing tweet and returns a 200 status with matching JSON schema" do
+      update_tweet_params= {tweet_body: "New body"}
+      patch "/api/tweets/#{tweet.id}", params: { tweet: update_tweet_params}, as: :json
       expect(response).to have_http_status(200)
-      expect(response).to response_schema('tweet')
+      expect(response).to match_response_schema('tweet')
     end
   end
 
-  describe "Tweets like", type: :request do
-    let(:user) { create(:user)}
-    let(:tweet) { create(:tweet, user: user)}
+
+  describe "Tweets like" do
+    let(:user) { create(:user) }
+    let(:tweet) { create(:tweet, user: user) }
 
     it "should return a successful 200 response for /tweets/:id/like" do
       post "/tweets/#{tweet.id}/like"
+
+      # Expect a successful HTTP status (200)
       expect(response).to have_http_status(200)
+
+      # Match the response to a JSON schema (assuming you have a 'like.json' schema)
+      expect(response).to match_response_schema('like')
     end
   end
   
