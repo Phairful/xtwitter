@@ -10,6 +10,10 @@ RSpec.describe "Tweets API", type: :request do
     
     it "creates a new tweet and returns a 200 status with matching JSON schema" do 
       post api_tweets_path, params: tweet_params, headers: {"Authorization": "Bearer #{token}"}
+        puts response.body
+
+        expect(response).to have_http_status(:created)
+
 
       expect(response).to have_http_status(201)
       expect(response).to match_response_schema('tweet')
@@ -106,7 +110,7 @@ RSpec.describe "Tweets API", type: :request do
       let(:tweet) { create(:tweet, user: user)}
 
       it "retrieves tweet stats and returns a 200 status with matching JSON schema" do 
-      get "/api/tweets/#{tweet.id}/stats", params:{}, header:{}
+      get "/api/tweets/#{tweet.id}/stats", params:{}, headers: {"Authorization": "Bearer #{token}"}
       expect(response).to have_http_status(200)
       expect(response).to response_schema('tweet')
     end

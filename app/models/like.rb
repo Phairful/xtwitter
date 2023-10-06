@@ -14,10 +14,11 @@ class Like < ApplicationRecord
 
 #----------------------------------------------------------------------------------------------------------
 
-     #created the validation for only having 1 like per tweet per user
-    validates :user_id, 
-        uniqueness: {scope: :tweet_id, message: "Has already been liked"}
-
+    #created the validation for only having 1 like per tweet per user
     #created the association validation for the relations between tables user & tweet to like
-    validates_associated :user, :tweet
+    # validates_associated :user 
+    # validates_associated :tweet
+  
+    validates :tweet_id, presence: true
+    validates :user_id, presence: true, uniqueness: {scope: :tweet_id, message: "Has already been liked"}
 end

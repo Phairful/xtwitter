@@ -4,9 +4,11 @@ class TweetsController < ApplicationController
 
   # GET /tweets or /tweets.json
   def index
-    @tweet = Tweet.new
+    #@tweet = Tweet.new
+    #@current_user.following
     @tweets = Tweet.all.order(created_at: :asc)
-  end
+    render_response('tweets/index')
+end
 
   # GET /tweets/1 or /tweets/1.json
   def show
@@ -15,6 +17,12 @@ class TweetsController < ApplicationController
         format.html {render :show}
     end
   end
+  def render_response(view_name)
+    respond_to do |format|
+      format.html { render view_name }
+    end
+  end
+
 
 
   # GET /tweets/new
@@ -72,7 +80,7 @@ class TweetsController < ApplicationController
     @like=Like.new(tweet_id: @tweet.id, user_id: :user)
 
     respond_to do |format|
-      format.html { redirect_to tweets_url}
+      format.html { redirect_to spec_tweet}
     end
   end
 

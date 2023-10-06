@@ -9,25 +9,18 @@ class Api::TweetsController < Api::BaseController
         render_response('tweets/web')
     end
 
-    #def index
-        #@tweet = Tweet.new
-        #@tweets = Tweet.all.order(created_at: :asc)
-        #render_response('tweets/index')
-    #end
+
 
 #api_tweets POST   /api/tweets(.:format)                                                                             api/tweets#create    
-    def create
-        @tweet = create_new(request) #try this
-        @tweet = Tweet.new(tweet_params)
-    respond_to do |format|
-      if @tweet.save
-        flash[:success] = "New tweet successfully created!"
-        render_response('tweets/show')
-      else
-        flash.now[:error] = "tweet creation failed"
-      end
+def create
+    @tweet = Tweet.new(tweet_params)
+    @tweet = current_user.tweets.new(content: params[:tweet][:content])
+
+    unless @tweet.save
+      render json: { errors: @tweet.errors.full_messages }, status: :unprocessable_entity
     end
-    end
+  end
+    
 
 #api_tweet PATCH  /api/tweets/:id(.:format)                                                                         api/tweets#update    
     def update
@@ -50,7 +43,7 @@ class Api::TweetsController < Api::BaseController
     def spec
         request = params[:id]
         @statistics = get_data(request)
-        render_response('tweets/spec')
+        render_response('tweets/show')
     end
 
 #like_api_tweet POST   /api/tweets/:id/like(.:format)                                                                    api/tweets#like

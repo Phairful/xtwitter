@@ -26,7 +26,7 @@ class Tweet < ApplicationRecord
         presence: { message: "must be given please" }
 
     #validation for the association of the user to tweet
-    validates_associated :user
+    #validates_associated :user
 
 #----------------------------------------------------------------------------------------------------------
 
@@ -110,11 +110,11 @@ class Tweet < ApplicationRecord
     
     #Method that allows quoting the tweet
     def quoting (user_you, quote_text)
-        Quote.create user_id: user_you.id , tweet_id: self.id, quote_body:quote_text
+        Quote.create user_id: user_you.id , tweet_id: self.id, quote_body: quote_text
     end
 
     def replying (user_you, body)
-        Tweet.create user_id:user_you.id, tweet_body: body, reply_at_tweet_id: self.id
+        Tweet.create user_id: user_you.id, tweet_body: body, reply_at_tweet_id: self.id
     end 
 
 end

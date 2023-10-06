@@ -77,4 +77,9 @@ class User < ApplicationRecord
         f= Follow.create follower_user_id: id, followee_user_id: user_other.id
     end
 
+
+    def followers(id)
+
+    end
+
 end
