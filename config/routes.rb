@@ -3,12 +3,13 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {registrations: 'registrations'}
 
   #Root path route ("/") will be remade into a home controller
-  root "tweets#index"
+  root "tweets#root"
+
 
     #this are all my HTML routes for views.
     #common path
     
-    resources :tweets, only: [:create, :update, :destroy, :show, :new, :edit] do
+    resources :tweets, only: [:create, :update, :destroy, :show, :new, :edit, :index] do
       #personalized path
       member do
         get 'spec', to: 'tweets#spec',  as: 'spec'
@@ -26,10 +27,10 @@ Rails.application.routes.draw do
     #----------------------------------------------------------------------------------------------------------  
     #Definition of the routes for managing user paths
     #common path
-    resources :users, only: [:show] do
+    resources :users, only: [:show] , param: :username do
       #personalized path
       member do
-        get 'tweets(/page/:page)',    to: 'users#tweets',   as: 'tweets'
+        get 'tweets(/page/:page)',    to: 'users#tweets',   as: 'tweets' 
         get 'tweets_replies(/page/:page)',   to: 'users#tweets_replies',   as: 'tweets_replies'
       end
     end

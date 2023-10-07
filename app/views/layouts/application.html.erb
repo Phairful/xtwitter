@@ -9,6 +9,17 @@
     <%= stylesheet_link_tag "application" %>
   </head>
 
+  <nav>
+    <ul>
+      <li><%= link_to 'Home', root_path %></li>
+            <li><%= link_to 'User', root_path %></li>
+      <li><%= link_to 'Tweets', root_path %></li>
+      <% if user_signed_in? %>
+      <!--  <li><%= link_to 'My Account', edit_user_registration_path %></li> -->
+      <% end %>
+    </ul>
+  </nav>
+
   <body>
     <%= yield %>
   </body>

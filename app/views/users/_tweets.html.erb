@@ -1,0 +1,21 @@
+<!-- app/views/users/_tweet.html.erb -->
+<div class="tweet">
+  <p><%= tweet.twee_body %></p>
+  <p>Posted on: <%= tweet.created_at %></p>
+</div>
+
+<div id="<%= dom_id tweet %>">
+    <strong>Tweet body:</strong>
+    <%= tweet.tweet_body %>
+  </p>
+
+  <p>
+    <strong>User:</strong>
+    <%= tweet.user_id %>
+  </p>
+
+  <p>
+    <strong>Reply at tweet:</strong>
+    <%= tweet.reply_at_tweet_id %>
+  </p>
+</div>

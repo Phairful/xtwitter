@@ -3,12 +3,24 @@ class TweetsController < ApplicationController
   before_action :set_tweet, only: %i[show edit update destroy]
 
   # GET /tweets or /tweets.json
+  def root
+    if user_signed_in?
+      redirect_to action: "index"
+    else
+      @tweets = Tweet.order("RANDOM()").limit(10)
+      render_response('tweets/index')
+    end
+   
+  end
+
   def index
-    #@tweet = Tweet.new
-    #@current_user.following
-    @tweets = Tweet.all.order(created_at: :asc)
+    #@tweets = current_user.tweets.order(created_at: :desc)
+    @tweets = current_user.followee_user.includes(:tweets).map(&:tweets).flatten
+#@tweets = @tweets.order(created_at: :desc)
     render_response('tweets/index')
-end
+  end
+    
+
 
   # GET /tweets/1 or /tweets/1.json
   def show
@@ -132,6 +144,10 @@ end
     respond_to do |format|
       format.html { redirect_to tweets_url}
     end
+  end
+
+   def following
+    @tweets = current_user.followed_users.includes(:tweets).map(&:tweets).flatten
   end
 
 #-------------------------------------------------------------------------------------------------------
