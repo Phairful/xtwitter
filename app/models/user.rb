@@ -82,4 +82,8 @@ class User < ApplicationRecord
 
     end
 
+    # def tweets_user(id)
+    #     Tweet.user_tweets(id)
+    # end
+
 end

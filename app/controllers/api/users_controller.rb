@@ -14,7 +14,7 @@ class Api::UsersController < Api::BaseController
 
   # GET or /users/1.json
   def show
-    @user = User.find(params[:id])
+    @user = current.find(params[:id])
   end
 
   # PATCH/PUT or /users/1/.json

@@ -1,15 +1,18 @@
-<div id="<%= dom_id tweet %>">
-    <strong>Tweet body:</strong>
-    <%= tweet.tweet_body %>
-  </p>
-
-  <p>
-    <strong>User:</strong>
-    <%= tweet.user_id %>
-  </p>
-
-  <p>
-    <strong>Reply at tweet:</strong>
-    <%= tweet.reply_at_tweet_id %>
-  </p>
+<div id="<%= dom_id tweet %>" class="tweet">
+  <div class="container-sm">
+    <div class="tweet-header">
+      <strong><%= link_to tweet.user.display_name, user_path(tweet.user) %></strong>
+      <br>
+      <%= link_to "@#{tweet.user.username}", user_path(tweet.user) %>
+    </div>
+    <div class="tweet-body">
+      <%= tweet.tweet_body %>
+    </div>
+    <div class="tweet-footer">
+      <strong>Reply at tweet:</strong>
+      <%= tweet.reply_at_tweet_id %>
+    </div>
+  </div>
 </div>
+
+

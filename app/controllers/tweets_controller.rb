@@ -14,12 +14,28 @@ class TweetsController < ApplicationController
   end
 
   def index
-    #@tweets = current_user.tweets.order(created_at: :desc)
+    @tweets = current_user.tweets_user.order(created_at: :desc)
     @tweets = current_user.followee_user.includes(:tweets).map(&:tweets).flatten
-#@tweets = @tweets.order(created_at: :desc)
+    #@tweets = @tweets.order(created_at: :desc)
     render_response('tweets/index')
   end
     
+
+  def index
+    if user_signed_in?
+      user_tweets = Tweet.user_tweets(current_user.id)
+      #user_tweets = current_user.tweets_user.order(created_at: :desc)
+      followee_tweets = current_user.followee_user.includes(tweets: :user).map(&:tweets).flatten
+  
+      # Combine user's tweets and followee's tweets into one array and sort by created_at
+      @tweets = (user_tweets + followee_tweets).sort_by(&:created_at).reverse
+    else
+      @tweets = Tweet.order("RANDOM()").limit(10)
+    end
+  
+    render_response('tweets/index')
+  end
+  
 
 
   # GET /tweets/1 or /tweets/1.json
@@ -37,34 +53,31 @@ class TweetsController < ApplicationController
 
 
 
-  # GET /tweets/new
-  #def new
-  #  @tweet = Tweet.new
-  #end
+  #GET /tweets/new
+  def new
+   @tweet = Tweet.new
+  end
 
   #GET /tweets/1/edit
   def edit
       @tweet = Tweet.find(params[:id])
       render :edit
-      #respond_to do |format|
-        #format.html { render :edit, locals: { question: question } }
-      #end
   end
 
 
-  # POST /tweets or /tweets.json
   def create
-    @tweet = Tweet.new(tweet_params)
-    respond_to do |format|
-      if @tweet.save
-        flash[:success] = "New tweet successfully created!"
-        format.html { redirect_to tweet_url(@tweet), notice: "tweet was successfully created."}
-      else
-        flash.now[:error] = "tweet creation failed"
-        format.html { render :new, status: :unprocessable_entity }
-      end
+    @tweet = current_user.tweets.build(tweet_params)
+  
+    if @tweet.save
+      flash[:success] = "New tweet successfully created!"
+      redirect_to root_path
+    else
+      flash.now[:error] = "Tweet creation failed"
+      render 'tweets/index'
     end
   end
+
+
 
   # PATCH/PUT /tweets/1 or /tweets/1.json
   def update 
@@ -78,6 +91,15 @@ class TweetsController < ApplicationController
       end
   end
 
+  def create
+    @tweet = current_user.tweets.build(tweet_params)
+
+    if @tweet.save
+      redirect_to root_path, notice: "Tweet created successfully."
+    else
+      render :new
+    end
+  end
 
   # DELETE /tweets/1 or /tweets/1.json
   def destroy
