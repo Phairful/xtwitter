@@ -11,15 +11,17 @@ RSpec.describe Bookmark, type: :model do
 
   #---------------------------------------------------------------------------------------------------------
   context "validations" do
-    subject!(:bookmark) { FactoryBot.build(:bookmark) }
 
-    #the validate uniqeness within an scope seems to be a validation that cant't be tested
-    #per what the shoulda-matcher documentation says it isn't supported yet.
-    #
-    # https://github.com/thoughtbot/shoulda-matchers/issues/814
-    #
-    #i offer a workaround
-
-    #it {should validate_uniqueness_of(:user).case_insensitive}
+    it "should validate scoped uniqueness" do
+    user1 = create(:user)
+    user2 = create(:user)
+    tweet = create(:tweet, user: user1)
+    bookmarking1 = tweet.bookmarking(user2.id)
+    bookmarking2 = tweet.bookmarking(user2.id)
+    
+    expect(bookmarking1.valid?).to be true
+    expect(bookmarking2.valid?).to be false
+    expect(bookmarking2.errors.messages[:user].first).to eq "Has already been bookmarked"
   end
+end
 end

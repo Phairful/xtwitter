@@ -8,13 +8,27 @@ RSpec.describe Like, type: :model do
     it { should belong_to (:user) }
   end
 
-  #---------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------
   context "validations" do
-
-    #the validate uniqeness within an scope seems to be a validation that cant't be tested
-    #per what the shoulda-matcher documentation says it isn't supported yet.
-    #
-    # https://github.com/thoughtbot/shoulda-matchers/issues/814
-    #it {should validate_uniqueness_of(:user).scoped_to(:tweet)}
+    it "should validate scoped uniqueness" do
+      user1 = create(:user)
+      user2 = create(:user)
+      # print user1
+      # p user1
+      # puts user1
+      tweet = create(:tweet, user: user1)
+      # print tweet
+      # p tweet
+      # puts tweet
+      like1 = tweet.liking(user2.id)
+      # print like1.errors.messages
+      # p like1
+      # puts like1
+      like2 = tweet.liking(user2.id)
+      
+      expect(like1.valid?).to be true
+      expect(like2.valid?).to be false
+      expect(like2.errors.messages[:user_id].first).to eq "Has already been liked"
+    end
   end
 end

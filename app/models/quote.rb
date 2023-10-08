@@ -2,7 +2,7 @@
 #
 #create_table "quotes"
 #
-#  t.string "quote_body"#
+# t.string "quote_body"
 # t.integer "user_id"
 # t.integer "tweet_id"
 # t.integer "tweet_quote_id"
@@ -21,5 +21,5 @@ class Quote < ApplicationRecord
     presence: { message: "must be given please" }
   
   #created the association validation for the relations between tables user & tweet to quote
-  validates_associated :tweet_id, :user_id
+  validates_associated :tweet, :user
 end

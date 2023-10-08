@@ -1,0 +1,32 @@
+
+// @import 'bootstrap/dist/css/bootstrap';
+
+.tweet {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fff; /* Added background color to match .tweet-container */
+}
+
+.tweet-header {
+  font-weight: bold;
+}
+
+.tweet-body {
+  /* Add your specific styles for the tweet body here */
+  /* Example: */
+  /* font-size: 16px; */
+}
+
+.tweet-footer {
+  /* Add your specific styles for the tweet footer here */
+  /* Example: */
+  /* color: #888; */
+}
+
+/* Additional styling for truncated text */
+.overflow-hidden {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

@@ -1,10 +1,35 @@
-<p style="color: green"><%= notice %></p>
+<div class="user-profile">
+<div class="col-md-6 center">
+  <h1><%= @user.display_name %></h1>
+  <p><strong>@<%= @user.username %></strong></p>
+  <p><strong>Bio:</strong> <%= @user.bio %></p>
+  <p><strong>Location:</strong> <%= @user.location %></p>
+  <p><strong>Date Joined:</strong> <%= @user.created_at.strftime("%B %d, %Y") %></p>
 
-<%= render @user %>
+  <% if user_signed_in? && @user == current_user %>
+    <%= link_to 'Edit Profile', edit_user_registration_path, class: 'btn btn-primary' %>
+  <% end %>
 
-<div>
-  <%= link_to "Edit this user", edit_user_path(@user) %> |
-  <%= link_to "Back to users", users_path %>
+  <ul class="nav nav-tabs"> 
+    <li class="nav-item">
+      <%= link_to "Tweets", "#tweets", class: "nav-link active", data: { toggle: "tab" } %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Liked", "#liked", class: "nav-link", data: { toggle: "tab" } %>
+    </li>
+  </ul>
 
-  <%= button_to "Destroy this user", @user, method: :delete %>
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="tweets">
+      <%= render @tweets %>
+    </div>
+    <div class="tab-pane fade" id="liked">
+      <%= render @tweets %>
+    </div>
+  </div>
 </div>
+</div>
+
+
+
+

@@ -1,7 +1,11 @@
-<p style="color: green"><%= notice %></p>
+<div class="tweet-details">
+  <p class="notice" style="color: green"><%= notice %></p>
 
-<%= render @tweet %>
+  <%= render @tweet %>
 
-<div>
-
+  <div class="tweet-actions">
+    <%= link_to "Edit this tweet", edit_tweet_path(@tweet) %> |
+    <%= link_to "Back to tweets", tweets_path %>
+  </div>
 </div>
+

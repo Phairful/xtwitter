@@ -1,17 +1,22 @@
 {
+	"$schema": "http://json-schema.org/draft-04/schema#",
 	"type": "object",
-	"required": ["tweet"],
 	"properties": {
-	  "tweet": {
-		"type": "object",
-		"required": ["tweet_id", "tweet_body", "tweeting_user_id"],
-		"properties": {
-		  "tweet_id": { "type": "integer" },
-		  "tweet_body": { "type": "string", "maxLength": 280 },
-		  "tweeting_user_id": { "type": "integer" },
-		  "reply_at_tweet_id": { "type": "integer" },
-		  "created_at": { "type": "string", "format": "date-time" }
-		}
-	  }
-	}
+	  "id": {"type": "integer"},
+	  "tweet_body": {"type": "string"},
+	  "user_id": {"type": "integer"},
+	  "reply_at_tweet_id": {"type": ["string", "null"]},
+	  "created_at": {"type": "string", "format": "date-time"},
+	  "updated_at": {"type": "string"},
+	  "url": {"type": "string"}
+	},
+	"required": [
+	  "id",
+	  "tweet_body",
+	  "user_id",
+	  "reply_at_tweet_id",
+	  "created_at",
+	  "updated_at",
+	  "url"
+	]
   }
