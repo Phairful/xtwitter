@@ -13,13 +13,17 @@ Rails.application.routes.draw do
       #personalized path
       member do
         get 'spec', to: 'tweets#spec',  as: 'spec'
-        post 'like',    to: 'tweets#like',    as: 'like'
-        delete 'unlike', to: 'tweets#unlike',  as: 'unlike'
-        post 'retweet',  to: 'tweets#retweet',  as: 'retweet'
+        post 'like',    to: 'tweets#like'
+        get 'like',    to: 'tweets#like'   
+        delete 'unlike', to: 'tweets#unlike'
+        get 'unlike', to: 'tweets#unlike'
+        post 'retweet',  to: 'tweets#retweet'
+        get 'retweet',  to: 'tweets#retweet' 
         post 'quote',    to: 'tweets#quote',    as: 'quote'
-        get 'reply',     to: 'tweets#see_reply',    as: 'show_reply'
-        post 'reply',     to: 'tweets#reply',    as: 'reply'
-        post 'bookmark', to: 'tweets#bookmark', as: 'bookmark'
+        get 'reply',     to: 'tweets#reply'
+        post 'reply',     to: 'tweets#reply'
+        get 'bookmark', to: 'tweets#bookmark'
+        post 'bookmark', to: 'tweets#bookmark'
 
       end
     end
@@ -32,6 +36,7 @@ Rails.application.routes.draw do
       member do
         get 'tweets(/page/:page)',    to: 'users#tweets',   as: 'tweets' 
         get 'tweets_replies(/page/:page)',   to: 'users#tweets_replies',   as: 'tweets_replies'
+        get 'tweets(/page/:page)',    to: 'users#liked',   as: 'liked' 
       end
     end
 

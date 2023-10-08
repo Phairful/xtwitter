@@ -21,4 +21,10 @@ class Like < ApplicationRecord
   
     validates :tweet_id, presence: true
     validates :user_id, presence: true, uniqueness: {scope: :tweet_id, message: "Has already been liked"}
+
+
+    def destroy
+        @todo = Todo.find(params[:id])
+        @todo.destroy
+      end
 end

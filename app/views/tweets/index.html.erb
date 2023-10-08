@@ -1,18 +1,28 @@
-<p style="color: green">
-  <%= notice %>
-</p>
-  <% if user_signed_in? %>
-    <%= form_with(model: Tweet.new, url: tweets_path) do |form| %>
-      <%= form.text_area :tweet_body, placeholder: "What's happening?" %>
-      <%= form.submit "Tweet" %>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <%
+=begin%>
+ <div class="alert alert-success">
+        <%= notice %>
+      </div> 
+<%
+=end%>
+      <% if user_signed_in? %>
+        <%= form_with(model: Tweet.new, url: tweets_path, class: "mb-3") do |form| %>
+          <%= form.text_area :tweet_body, placeholder: "What's happening?", class: "form-control" %>
+          <%= form.submit "Tweet", class: "btn btn-primary" %>
+        <% end %>
+        <h2>Feed:</h2>
+        <div id="tweets-container">
+          <%= render @tweets %>
+        </div>
+      <% else %>
+        <h2>Random Tweets:</h2>
+        <div id="tweets-container">
+          <%= render @tweets %>
+        </div>
       <% end %>
-      <h2>Feed:</h2>
-    <div id="tweets-container">
-      <%= render @tweets %>
     </div>
-  <% else %>
-    <h2>Random Tweets:</h2>
-    <div id="tweets-container">
-      <%= render @tweets %>
-    </div>
-  <% end %>
+  </div>
+</div>

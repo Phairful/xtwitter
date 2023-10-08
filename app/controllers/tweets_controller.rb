@@ -13,12 +13,12 @@ class TweetsController < ApplicationController
    
   end
 
-  def index
-    @tweets = current_user.tweets_user.order(created_at: :desc)
-    @tweets = current_user.followee_user.includes(:tweets).map(&:tweets).flatten
-    #@tweets = @tweets.order(created_at: :desc)
-    render_response('tweets/index')
-  end
+  # def index
+  #   @tweets = current_user.tweets_user.order(created_at: :desc)
+  #   @tweets = current_user.followee_user.includes(:tweets).map(&:tweets).flatten
+  #   #@tweets = @tweets.order(created_at: :desc)
+  #   render_response('tweets/index')
+  # end
     
 
   def index
@@ -45,6 +45,8 @@ class TweetsController < ApplicationController
         format.html {render :show}
     end
   end
+
+  
   def render_response(view_name)
     respond_to do |format|
       format.html { render view_name }
@@ -59,9 +61,18 @@ class TweetsController < ApplicationController
   end
 
   #GET /tweets/1/edit
+  
   def edit
-      @tweet = Tweet.find(params[:id])
+    @tweet = Tweet.find(params[:id])
+  end
+
+  def update
+    @tweet = Tweet.find(params[:id])
+    if @tweet.update(tweet_params)
+      redirect_to @tweet, notice: 'Tweet was successfully updated.'
+    else
       render :edit
+    end
   end
 
 
@@ -101,72 +112,100 @@ class TweetsController < ApplicationController
     end
   end
 
-  # DELETE /tweets/1 or /tweets/1.json
   def destroy
     @tweet = Tweet.find(params[:id])
     @tweet.destroy
     flash[:success] = "The tweet was deleted"
-    redirect_to tweet_url
+    redirect_to tweets_url
+  end
+
+  def destroy_like
+    @tweet = Tweet.find(params[:id])
+    @like = Like.find_by(tweet_id: @tweet.id, user_id: current_user.id)
+    
+    if @like
+      @like.destroy
+      flash[:success] = "Your like was removed"
+    else
+      flash[:error] = "You haven't liked this tweet"
+    end
+
+    redirect_to tweet_path(@tweet)
   end
 
   def like
     @tweet = Tweet.find(params[:id])
-    @like=Like.new(tweet_id: @tweet.id, user_id: :user)
+    @like = Like.new(tweet: @tweet, user: current_user)
 
-    respond_to do |format|
-      format.html { redirect_to spec_tweet}
+    if @like.save
+      flash[:success] = "You liked the tweet"
+    else
+      flash[:error] = "There was an error liking the tweet"
     end
+
+    redirect_to tweet_path(@tweet)
   end
 
   def unlike
     @tweet = Tweet.find(params[:id])
-    like = Like.find_by(tweet_id: @tweet.id)
-    like.delete
-    respond_to do |format|
-      format.html { redirect_to tweets_url}
+    @like = Like.find_by(tweet_id: @tweet.id, user_id: current_user.id)
+    
+    if @like
+      @like.destroy
+      flash[:success] = "You unliked the tweet"
+    else
+      flash[:error] = "You haven't liked this tweet"
     end
+
+    redirect_to tweet_path(@tweet)
   end
 
   def retweet
     @tweet = Tweet.find(params[:id])
-    @retweet=Retweet.new(tweet_id: @tweet.id, user_id: :user)
-
-    respond_to do |format|
-      format.html { redirect_to tweets_url}
+    @retweet=Retweet.new(tweet: @tweet, user: current_user)
+    if
+      flash[:success] = "You liked the tweet"
+    else
+      flash[:error] = "There was an error liking the tweet"
     end
+      redirect_to tweet_path(@tweet)
   end
 
   def quote
     @tweet = Tweet.find(params[:id])
     @Retweet=Retweet.new(tweet_id: @tweet.id, user_id: :user)
     respond_to do |format|
-      format.html { redirect_to tweets_url, notice: "Tweet was successfully destroyed." }
+      format.html { redirect_to tweet_path, notice: "Tweet was successfully destroyed." }
     end
   end
 
   def reply
-    original_tweet = @tweet
-    current_user = tweet_params[:user_id]
+    original_tweet = Tweet.find(params[:id])
+    # = current_user 
 
-    #@quote_tweet = Tweet.new(user_id: current_user, content: tweet_params[:content], quote_id: original_tweet.id)
-    @reply = Tweet.new(user_id: :user, tweet_body: tweet_params[:tweet_body], reply_at_tweet_id: @tweet.id)
+    @reply = Tweet.new(user_id: current_user.id , tweet_body: tweet_params[:tweet_body], reply_at_tweet_id: original_tweet.id)
+  
     respond_to do |format|
       if @reply.save
-        format.html { redirect_to tweet_url(@tweet), notice: "Reply was successfully created." }
+        format.html { redirect_to tweet_url(original_tweet), notice: "Reply was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
+  
 
   def bookmark
     @tweet = Tweet.find(params[:id])
-    @bookmark=Bookmark.new(tweet_id: @tweet.id, user_id: :user)
-
-    respond_to do |format|
-      format.html { redirect_to tweets_url}
+    @bookmark=Bookmark.new(tweet: @tweet, user: current_user)
+    if @bookmark.save
+      flash[:success] = "You bookmarked the tweet"
+    else
+      flash[:error] = "There was an error bookmark the tweet"
     end
-  end
+
+    redirect_to tweet_path(@tweet)
+    end
 
    def following
     @tweets = current_user.followed_users.includes(:tweets).map(&:tweets).flatten

@@ -59,18 +59,44 @@ class UsersController < ApplicationController
     end
   end
 
+  # def show
+  #   @user = User.find(params[:username])
+  #   @tweets = @user.tweets.order(created_at: :desc).page(params[:page]).per(10)
+  #   @tweets_and_replies = @user.tweets_replies_by_user
+  #   @likes = @user.likes_by_user
+  
+  # end
+
+  def show
+    @user = User.find(params[:username])
+    @tweets = @user.tweets
+    #@tweets_and_replies = @user.tweets_and_replies
+    @tweets_and_replies = Tweet.user_tweets_replies(@user.id)
+    @likes = @user.likes
+  end
+    
+    def liked
+      @tweets = Tweet.user_likes(params[:username])
+    end
+
+    def show
+      @user = User.find(params[:username])
+      @tweets = @user.tweets
+      #@tweets_and_replies = @user.tweets_and_replies
+      @tweets_and_replies = Tweet.user_tweets_replies(@user.id)
+      @likes = @user.likes
+    end
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find(params[:username])
     end
 
     # Only allow a list of trusted parameters through.
     def user_params
       params.require(:user).permit(:username, :display_name, :email, :password, :bio, :location)
     end
-
-    def show
-      @user = User.find(params[:id])
-    end
-end
+  end

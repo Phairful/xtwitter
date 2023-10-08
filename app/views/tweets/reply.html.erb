@@ -1,0 +1,10 @@
+<h1>Reply to Tweet</h1>
+
+<%= render "form", tweet: @reply %>
+
+<br>
+
+<div>
+  <%= link_to "Back to Original Tweet", tweet_url(@reply.reply_at_tweet) %> |
+  <%= link_to "Back to Tweets", tweets_path %>
+</div>
